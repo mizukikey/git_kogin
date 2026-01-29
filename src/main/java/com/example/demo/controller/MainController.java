@@ -16,4 +16,14 @@ public class MainController {
 	public String  manager_login(Model m) {
 		return "/manager/login";
 	}
+	
+	@RequestMapping("/customer/top")
+	public String  customer_top(Model m) {
+		return "/customer/top";
+	}
+	
+	@RequestMapping("/manager/top")
+	public String  manager_top(Model m) {
+		return "/manager/top";
+	}
 }
