@@ -13,7 +13,7 @@
       th:object="${product}"
       method="post">
 
-	  <div>
+	  <div class="form-row">
 	      商品名：
 	      <input type="text"
 	             th:field="*{name}"
@@ -23,7 +23,7 @@
 	           th:errors="*{name}"></div>
 	  </div>
 
-	<div>
+	<div class="form-row">
 	    値段：
 	    <input type="number"
 	           th:field="*{price}"
@@ -34,7 +34,7 @@
 	         th:errors="*{price}"></div>
 	</div>
 
-	<div>
+	<div class="form-row">
 	    在庫数：
 	    <input type="number"
 	           th:field="*{stock}"

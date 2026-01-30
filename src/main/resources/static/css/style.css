@@ -5,7 +5,7 @@ body {
     color: #2f4f3e;
     margin: 0;
     padding: 0;
-    text-align: center; /* ← 全体を中央寄せ */
+    text-align: center; /* 基本は中央寄せ */
 }
 
 /* ===== コンテナ ===== */
@@ -16,19 +16,19 @@ body {
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 10px 22px rgba(0,0,0,0.08);
-    border: 1px solid #d6c6b8; /* ← 薄い茶色の枠を追加 */
+    border: 1px solid #d6c6b8;
 }
 
 /* ===== 見出し ===== */
 h1, h2 {
-    color: #5a3f2f; /* ← 少し茶色寄り */
+    color: #5a3f2f;
     margin-bottom: 30px;
 }
 
 /* ===== フォーム ===== */
 .form-group {
     display: flex;
-    justify-content: center; /* 中央寄せ */
+    justify-content: center;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -38,7 +38,7 @@ label {
     text-align: right;
     margin-right: 15px;
     font-weight: bold;
-    color: #6b4e3d; /* ← 茶色アクセント */
+    color: #6b4e3d;
 }
 
 /* ===== 入力欄 ===== */
@@ -54,7 +54,7 @@ input[type="number"] {
 
 input:focus {
     outline: none;
-    border-color: #7f5f4a; /* ← 茶色寄りに変更 */
+    border-color: #7f5f4a;
     box-shadow: 0 0 0 2px rgba(127,95,74,0.25);
 }
 
@@ -65,7 +65,7 @@ input:focus {
     margin-bottom: 10px;
 }
 
-/* ===== ボタン ===== */
+/* ===== 通常ボタン ===== */
 button {
     margin-top: 30px;
     background-color: #4f9f7a;
@@ -78,7 +78,7 @@ button {
 }
 
 button:hover {
-    background-color: #5a3f2f; /* ← 濃い茶色 */
+    background-color: #5a3f2f;
 }
 
 /* ===== pタグ ===== */
@@ -90,8 +90,8 @@ p {
 
 /* 結果表示 */
 p.result {
-    background-color: #f5f2ee; /* ← 少し暖色寄り */
-    border-left: 5px solid #a1755a; /* ← 茶色のライン */
+    background-color: #f5f2ee;
+    border-left: 5px solid #a1755a;
     padding: 10px 14px;
     margin: 14px auto;
     border-radius: 6px;
@@ -104,11 +104,11 @@ table {
     margin: 30px auto;
     border-collapse: collapse;
     width: 90%;
-    border: 1px solid #d6c6b8; /* ← テーブル枠を茶色に */
+    border: 1px solid #d6c6b8;
 }
 
 th {
-    background-color: #7f5f4a; /* ← 茶色系に変更 */
+    background-color: #7f5f4a;
     color: #ffffff;
     padding: 10px;
 }
@@ -119,17 +119,17 @@ td {
 }
 
 tr:nth-child(even) {
-    background-color: #f7f3f0; /* ← 薄茶色寄り */
+    background-color: #f7f3f0;
 }
 
 tr:hover {
-    background-color: #eaded3; /* ← ホバーも茶系 */
+    background-color: #eaded3;
 }
 
-/* 戻るボタン */
+/* ===== 戻るボタン ===== */
 a.btn-back {
     display: inline-block;
-    background-color: #4f9f7a;   /* グリーン基調 */
+    background-color: #4f9f7a;
     color: #ffffff;
     padding: 10px 28px;
     border-radius: 22px;
@@ -143,51 +143,46 @@ a.btn-back:hover {
     background-color: #3f7f5f;
 }
 
-/* ===== 小さめのフォーム内ボタン ===== */
+/* ===== フォーム内 submit ===== */
 form input[type="submit"] {
-    background-color:#4f9f7a;  /* 茶色基調 */
+    background-color: #4f9f7a;
     color: #ffffff;
     border: none;
-    padding: 6px 18px;          /* 通常ボタンより少し小さめ */
+    padding: 6px 18px;
     border-radius: 18px;
     font-size: 14px;
     cursor: pointer;
-    transition: background-color 0.2s ease;
 }
 
 form input[type="submit"]:hover {
-    background-color: #4f9f7a;  /* 濃い茶色でホバー */
+    background-color: #3f7f5f;
 }
 
-/* ===== フォーム全体の配置 ===== */
+/* ===== フォーム全体 ===== */
 form {
-    display: inline-block;       /* ボタンを中央寄せにしたい場合 */
+    display: inline-block;
     margin: 10px 0;
 }
 
-.hero {
-    height: 300px;
-    background-image: url('/img/cofee.png');
-    background-size: cover;
-    background-position: center;
-    position: relative;
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
 }
 
-.hero-text {
-    position: absolute;
-    bottom: 30px;
-    left: 40px;
-    color: white;
-    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+.form-row label {
+    width: 80px;          /* ← ここでそろう */
+    text-align: right;
+    margin-right: 12px;
+    font-weight: bold;
 }
 
-.hero-text h1 {
-	color: white;
-    font-size: 32px;
-    margin: 0;
+.form-row input {
+    width: 240px;
+    padding: 6px 10px;
+    border: 1px solid #7fb99b;
+    border-radius: 6px;
 }
-.hero-text p {
-	color: #4f9f7a;
-    margin: 0;
-}
+
+
 
