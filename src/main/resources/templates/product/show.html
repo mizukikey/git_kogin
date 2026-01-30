@@ -5,6 +5,24 @@
 <title>商品情報一覧</title>
 </head>
 <body>
+	<p>商品の一覧</p>
 
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>名前</th>
+			<th>値段</th>
+			<th>在庫数</th>
+		</tr>
+
+		<tr th:each="p : ${productlist}">
+			<td th:text="${p.id}"></td>
+			<td th:text="${p.name}"></td>
+			<td th:text="${p.price}"></td>
+			<td th:text="${p.stock}"></td>
+		</tr>
+	</table>
+
+	<p><a href="top">商品管理TOPページに戻る</p>
 </body>
 </html>
