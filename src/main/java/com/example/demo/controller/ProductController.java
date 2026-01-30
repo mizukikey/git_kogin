@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -151,9 +152,29 @@ public class ProductController {
 	        return "product/update_result";
 	    }
 	
+	
 	@RequestMapping("/product/delete")
 	public String  product_delete(Model m) {
+		List<Entity_product> product_list=dao_product.findAll();
+		m.addAttribute("product_list",product_list);
 		return "/product/delete";
+	}
+	
+	@RequestMapping("/product/delete_confirm")
+	public String  delete_confirm(HttpServletRequest req,HttpServletRequest r,HttpSession s) {
+		int id=Integer.parseInt(req.getParameter("id"));
+		Optional<Entity_product> opt=dao_product.findById(id);
+		Entity_product result = opt.get();  
+		s.setAttribute("result",result);
+		return "/product/delete_confirm";
+	}
+	
+	@RequestMapping("/product/delete_result")
+	public String  delete_result(HttpServletRequest r,HttpSession s) {
+		Entity_product product = (Entity_product) s.getAttribute("result");
+	    Integer id = product.getId();
+	    dao_product.deleteById(id);
+		return "/product/delete_result";
 	}
 	
 }
