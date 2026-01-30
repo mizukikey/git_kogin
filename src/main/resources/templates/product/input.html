@@ -1,10 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>商品情報入力</title>
+<title>商品入力</title>
 </head>
 <body>
+
+<h2>商品入力</h2>
+
+<form th:action="@{/product/input_confirm}"
+      th:object="${product}"
+      method="post">
+
+	  <div>
+	      商品名：
+	      <input type="text"
+	             th:field="*{name}"
+	             maxlength="100"
+	             required />
+	      <div th:if="${#fields.hasErrors('name')}"
+	           th:errors="*{name}"></div>
+	  </div>
+
+	<div>
+	    値段：
+	    <input type="number"
+	           th:field="*{price}"
+	           min="0"
+	           step="1"
+	           required />
+	    <div th:if="${#fields.hasErrors('price')}"
+	         th:errors="*{price}"></div>
+	</div>
+
+	<div>
+	    在庫数：
+	    <input type="number"
+	           th:field="*{stock}"
+	           min="0"
+	           step="1"
+	           required />
+	    <div th:if="${#fields.hasErrors('stock')}"
+	         th:errors="*{stock}"></div>
+	</div>
+
+    <button type="submit">確認</button>
+	<p><a href="top">商品管理TOPページに戻る</p>
+</form>
 
 </body>
 </html>
