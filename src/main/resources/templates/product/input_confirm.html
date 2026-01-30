@@ -1,30 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
 <title>商品情報確認</title>
 </head>
 <body>
 
-<p>商品情報確認</p>
+<h2>商品情報確認</h2>
 
 <form th:action="@{/product/input_result}" 
       th:object="${product}" 
       method="post">
 
-    <p>名前：<span th:text="*{name}"></span></p>
-    <input type="hidden" th:field="*{name}">
+	<div>
+	    <label>名前：</label>
+	    <span th:text="*{name}"></span>
+	    <input type="hidden" th:field="*{name}" />
+	</div>
 
-    <p>値段：<span th:text="*{price}"></span></p>
-    <input type="hidden" th:field="*{price}">
+	<div>
+	    <label>値段：</label>
+	    <span th:text="*{price}"></span>
+	    <input type="hidden" th:field="*{price}" />
+	</div>
 
-    <p>在庫数：<span th:text="*{stock}"></span></p>
-    <input type="hidden" th:field="*{stock}">
-
+	<div>
+	    <label>在庫数：</label>
+	    <span th:text="*{stock}"></span>
+	    <input type="hidden" th:field="*{stock}" />
+	</div>
+	
     <button type="submit">登録</button>
 </form>
 
-<p><a href="top">商品管理TOPページに戻る</p>
+<p class="back">
+    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+</p>
 
 </body>
 </html>

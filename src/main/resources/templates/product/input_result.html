@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
 <title>登録完了</title>
 </head>
@@ -10,14 +11,24 @@
 
 <p>以下の商品を登録しました。</p>
 
-<ul>
-    <li>名前：<span th:text="${p.name}"></span></li>
-    <li>値段：<span th:text="${p.price}"></span> 円</li>
-    <li>在庫数：<span th:text="${p.stock}"></span></li>
-</ul>
+<div>
+    <label>商品名：</label>
+    <span th:text="${p.name}"></span>
+</div>
+<div>
+    <label>値段：</label>
+    <span th:text="${p.price}"></span> 円
+</div>
+<div>
+    <label>在庫数：</label>
+    <span th:text="${p.stock}"></span>
+</div>
 
-<a th:href="@{/product/input}">続けて登録する</a>
-<p><a href="top">商品管理TOPページに戻る</p>
-	
+<p class="back">
+<a th:href="@{/product/input}" class="btn-back">続けて登録する</a>
+</p>
+<p class="back">
+    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+</p>
 </body>
 </html>

@@ -6,12 +6,12 @@
 <title>商品情報一覧</title>
 </head>
 <body>
-	<p>商品の一覧</p>
-
+	<h2>商品一覧</h2>
+	
 	<table>
 		<tr>
 			<th>ID</th>
-			<th>名前</th>
+			<th>商品名</th>
 			<th>値段</th>
 			<th>在庫数</th>
 		</tr>
@@ -23,7 +23,9 @@
 			<td th:text="${p.stock}"></td>
 		</tr>
 	</table>
-
-	<p><a href="top">商品管理TOPページに戻る</p>
+	
+	<p class="back">
+	    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+	</p>
 </body>
 </html>

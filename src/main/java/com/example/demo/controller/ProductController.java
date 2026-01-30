@@ -1,7 +1,9 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.Optional;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,8 +93,64 @@ public class ProductController {
 	
 	@RequestMapping("/product/update")
 	public String  product_update(Model m) {
+		List<Entity_product> product_list=dao_product.findAll();
+		m.addAttribute("product_list",product_list);
 		return "/product/update";
 	}
+	
+
+	@RequestMapping("/product/update_input")
+	public String  product_update_input(Model m, HttpServletRequest req) {
+		int id=Integer.parseInt(req.getParameter("id"));
+		Optional<Entity_product> opt=dao_product.findById(id);
+		Entity_product product = opt.get();  
+		m.addAttribute("product",product);
+		return "/product/update_input";
+	}
+
+	    // ------------------------
+	    // 更新確認画面
+	    // ------------------------
+	    @PostMapping("/product/update_confirm")
+	    public String product_update_confirm(
+	            @Validated @ModelAttribute("product") Entity_product product,
+	            BindingResult bindingResult,
+	            Model model) {
+
+	        // Bean Validation エラー
+	        if (bindingResult.hasErrors()) {
+	            return "product/update_input";
+	        }
+
+	        // UNIQUEチェック（自分自身のIDは除外）
+	        if (productService.isNameDuplicatedForUpdate(product.getName(), product.getId())) {
+	            bindingResult.rejectValue("name", "duplicate", "この商品名はすでに登録されています");
+	            return "product/update_input";
+	        }
+
+	        model.addAttribute("product", product);
+	        return "product/update_confirm";
+	    }
+
+	    // ------------------------
+	    // 更新結果画面
+	    // ------------------------
+	    @PostMapping("/product/update_result")
+	    public String product_update_result(
+	            @Valid @ModelAttribute("product") Entity_product product,
+	            BindingResult result,
+	            Model model) {
+
+	        if (result.hasErrors()) {
+	            return "product/update_input";
+	        }
+
+	        dao_product.save(product); // ID付きならUPDATE
+
+	        model.addAttribute("p", product);
+	        return "product/update_result";
+	    }
+	
 	@RequestMapping("/product/delete")
 	public String  product_delete(Model m) {
 		return "/product/delete";
