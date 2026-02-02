@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>変更情報入力画面</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<h2>変更情報入力</h2>
+
+<form th:action="@{/product/update_confirm}"
+      th:object="${product}"
+      method="post">
+	  <input type="hidden" th:field="*{id}" />
+
+	  <div>
+	      商品名：
+	      <input type="text"
+	             th:field="*{name}"
+	             maxlength="100"
+	             required />
+	      <div th:if="${#fields.hasErrors('name')}"
+	           th:errors="*{name}"></div>
+	  </div>
+
+	<div>
+	    値段：
+	    <input type="number"
+	           th:field="*{price}"
+	           min="0"
+	           step="1"
+	           required />
+	    <div th:if="${#fields.hasErrors('price')}"
+	         th:errors="*{price}"></div>
+	</div>
+
+	<div>
+	    在庫数：
+	    <input type="number"
+	           th:field="*{stock}"
+	           min="0"
+	           step="1"
+	           required />
+	    <div th:if="${#fields.hasErrors('stock')}"
+	         th:errors="*{stock}"></div>
+	</div>
+
+    <button type="submit">確認</button>
+	<p class="back">
+	    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+	</p>
+</form>
+
+</body>
+</html>

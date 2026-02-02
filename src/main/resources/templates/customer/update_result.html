@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>変更結果表示</title>
+</head>
+<body>
+	<h2>変更完了</h2>
+
+	<h3>以下の商品を変更しました。</h3>
+	<div>
+	    <label>商品ID：</label>
+	    <span th:text="${p.id}"></span>
+	</div>
+	<div>
+	    <label>商品名：</label>
+	    <span th:text="${p.name}"></span>
+	</div>
+	<div>
+	    <label>値段：</label>
+	    <span th:text="${p.price}"></span> 円
+	</div>
+	<div>
+	    <label>在庫数：</label>
+	    <span th:text="${p.stock}"></span>
+	</div>
+
+	<p class="back">
+	<a th:href="@{/product/update}" class="btn-back">続けて変更する</a>
+	</p>
+	
+	<p class="back">
+	    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+	</p>
+</body>
+</html>

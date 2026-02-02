@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>変更情報確認画面</title>
+</head>
+<body>
+	<h2>商品情報確認</h2>
+
+	<form th:action="@{/product/update_result}" 
+	      th:object="${product}" 
+	      method="post">
+		  <input type="hidden" th:field="*{id}" />
+
+		  <div>
+		      <label>商品名：</label>
+		      <span th:text="*{name}"></span>
+		      <input type="hidden" th:field="*{name}" />
+		  </div>
+
+		  <div>
+		      <label>値段：</label>
+		      <span th:text="*{price}"></span>
+		      <input type="hidden" th:field="*{price}" />
+		  </div>
+
+		  <div>
+		      <label>在庫数：</label>
+		      <span th:text="*{stock}"></span>
+		      <input type="hidden" th:field="*{stock}" />
+		  </div>
+
+	    <button type="submit">登録</button>
+	</form>
+
+	<p class="back">
+	    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+	</p>
+</body>
+</html>

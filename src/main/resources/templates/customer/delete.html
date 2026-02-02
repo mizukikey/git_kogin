@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>商品情報削除</title>
+</head>
+<body>
+	<h2>削除したいレコードを選んでください</h2>
+	<table>
+		<tr>
+			<th>ID</th> <th>商品名</th> <th>値段</th> <th>在庫数</th> <th>削除</th>
+		</tr>
+
+		<tr th:each="p:${product_list}">
+			<td th:text=${p.id}></td>
+			<td th:text=${p.name}></td>
+			<td th:text=${p.price}></td>
+			<td th:text=${p.stock}></td>
+			<td>
+				<form th:action="@{/product/delete_confirm}" method="post">
+					<input type="hidden" name="id" th:value="@{${p.id}}">
+					<input type="submit" value="削除">
+				</form>
+			</td>
+		</tr>	
+	</table>
+	<p class="back">
+	    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+	</p>
+</body>
+</html>
