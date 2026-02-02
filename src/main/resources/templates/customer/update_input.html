@@ -13,35 +13,35 @@
       method="post">
 	  <input type="hidden" th:field="*{id}" />
 
-	  <div>
-	      商品名：
+	  <div class="form-row">
+	       <label>商品名：</label>
 	      <input type="text"
 	             th:field="*{name}"
 	             maxlength="100"
 	             required />
-	      <div th:if="${#fields.hasErrors('name')}"
+	      <div  class="error-message" th:if="${#fields.hasErrors('name')}"
 	           th:errors="*{name}"></div>
 	  </div>
 
-	<div>
-	    値段：
+	<div class="form-row">
+	    <label>値段：</label>
 	    <input type="number"
 	           th:field="*{price}"
 	           min="0"
 	           step="1"
 	           required />
-	    <div th:if="${#fields.hasErrors('price')}"
+	    <div  class="error-message" th:if="${#fields.hasErrors('price')}"
 	         th:errors="*{price}"></div>
 	</div>
 
-	<div>
-	    在庫数：
+	<div class="form-row">
+	    <label>在庫数：</label>
 	    <input type="number"
 	           th:field="*{stock}"
 	           min="0"
 	           step="1"
 	           required />
-	    <div th:if="${#fields.hasErrors('stock')}"
+	    <div class="error-message"th:if="${#fields.hasErrors('stock')}"
 	         th:errors="*{stock}"></div>
 	</div>
 

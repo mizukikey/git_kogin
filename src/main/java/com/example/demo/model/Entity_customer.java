@@ -27,10 +27,10 @@ public class Entity_customer {
     @Size(max = 20, message = "電話番号は20文字以内で入力してください")
     private String phone_number;
     
-    @Column(unique = true)
+    @Column(name = "user_id", unique = true)
     @NotBlank(message = "ユーザIDは必須です")
     @Size(max = 50, message = "ユーザIDは50文字以内で入力してください")
-    private String user_id;
+    private String userId;
     
     @NotBlank(message = "パスワードは必須です")
     @Size(max = 255, message = "パスワードは255文字以内で入力してください")
@@ -38,12 +38,12 @@ public class Entity_customer {
     
 	
 	public Entity_customer(){}
-	public Entity_customer(int id,String name,String address,String phone_number,String user_id,String password){
+	public Entity_customer(int id,String name,String address,String phone_number,String userId,String password){
 		this.id=id;
 		this.name=name;
 		this.address=address;
 		this.phone_number = phone_number;
-		this.user_id=user_id;
+		this.userId=userId;
 		this.password=password;
 	}
 	
@@ -71,11 +71,11 @@ public class Entity_customer {
 	public void setPhone_number(String phone_number) {
 		this.phone_number = phone_number;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getUserId() {
+		return userId;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setUserId(String user_id) {
+		this.userId = user_id;
 	}
 	public String getPassword() {
 		return password;

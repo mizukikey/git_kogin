@@ -171,10 +171,11 @@ form {
 }
 
 .form-row label {
-    width: 80px;          /* ← ここでそろう */
+    width: 100px;          /* ← ここを固定 */
     text-align: right;
     margin-right: 12px;
     font-weight: bold;
+    color: #6b4e3d;
 }
 
 .form-row input {
@@ -184,5 +185,11 @@ form {
     border-radius: 6px;
 }
 
+
+.error-message {
+    color: #d9534f;   /* 赤 */
+    font-size: 0.9em;
+    margin-top: 4px;
+}
 
 

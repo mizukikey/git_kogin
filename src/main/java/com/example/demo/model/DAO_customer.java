@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DAO_customer extends JpaRepository <Entity_customer, Integer>{
-	boolean existsByName(String name);
+	boolean existsByUserId(String userId);
 
-	Optional<Entity_customer> findByName(String name);
+	Optional<Entity_customer> findByUserId(String userId);
 }

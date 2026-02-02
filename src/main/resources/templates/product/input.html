@@ -3,45 +3,45 @@
 <head>
 	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
-<title>商品入力</title>
+<title>商品情報入力</title>
 </head>
 <body>
 
-<h2>商品入力</h2>
+<h2>商品情報入力</h2>
 
 <form th:action="@{/product/input_confirm}"
       th:object="${product}"
       method="post">
 
 	  <div class="form-row">
-	      商品名：
+		<label>商品名：</label>
 	      <input type="text"
 	             th:field="*{name}"
 	             maxlength="100"
 	             required />
-	      <div th:if="${#fields.hasErrors('name')}"
+	      <div class="error-message" th:if="${#fields.hasErrors('name')}"
 	           th:errors="*{name}"></div>
 	  </div>
 
 	<div class="form-row">
-	    値段：
+	    <label>値段：</label>
 	    <input type="number"
 	           th:field="*{price}"
 	           min="0"
 	           step="1"
 	           required />
-	    <div th:if="${#fields.hasErrors('price')}"
+	    <div  class="error-message" th:if="${#fields.hasErrors('price')}"
 	         th:errors="*{price}"></div>
 	</div>
 
 	<div class="form-row">
-	    在庫数：
+	     <label>在庫数：</label>
 	    <input type="number"
 	           th:field="*{stock}"
 	           min="0"
 	           step="1"
 	           required />
-	    <div th:if="${#fields.hasErrors('stock')}"
+	    <div  class="error-message" th:if="${#fields.hasErrors('stock')}"
 	         th:errors="*{stock}"></div>
 	</div>
 

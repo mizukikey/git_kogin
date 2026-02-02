@@ -62,11 +62,11 @@ public class CustomerController {
 	    }
 
 	    // ★ UNIQUE チェック（ここ）
-	    if (customerService.isNameDuplicated(customer.getName())) {
+	    if (customerService.isUserIdDuplicated(customer.getUserId())) {
 	        bindingResult.rejectValue(
-	            "name",
+	            "userId",
 	            "duplicate",
-	            "この商品名はすでに登録されています"
+	            "※このユーザIDはすでに登録されています"
 	        );
 	        return "customer/input";
 	    }
@@ -124,8 +124,8 @@ public class CustomerController {
 	        }
 
 	        // UNIQUEチェック（自分自身のIDは除外）
-	        if (customerService.isNameDuplicatedForUpdate(customer.getName(), customer.getId())) {
-	            bindingResult.rejectValue("name", "duplicate", "この商品名はすでに登録されています");
+	        if (customerService.isUserIdDuplicatedForUpdate(customer.getUserId(), customer.getId())) {
+	            bindingResult.rejectValue("userId", "duplicate", "このユーザIDはすでに登録されています");
 	            return "customer/update_input";
 	        }
 

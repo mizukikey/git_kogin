@@ -11,17 +11,17 @@ public class CustomerService {
     @Autowired
     private DAO_customer customerRepository;
 
-    public boolean isNameDuplicated(String name) {
-        return customerRepository.existsByName(name);
+    public boolean isUserIdDuplicated(String user_id) {
+        return customerRepository.existsByUserId(user_id);
     }
 
     public void save(Entity_customer customer) {
     	customerRepository.save(customer);
     }
     
-    public boolean isNameDuplicatedForUpdate(String name, Integer id) {
-        Optional<Entity_customer> opt = customerRepository.findByName(name);
-        if (opt.isEmpty()) return false; // 名前なしは重複なし
+    public boolean isUserIdDuplicatedForUpdate(String user_id, Integer id) {
+        Optional<Entity_customer> opt = customerRepository.findByUserId(user_id);
+        if (opt.isEmpty()) return false;
         return id == null || !opt.get().getId().equals(id); // 新規 or 別IDなら重複
     }
 
