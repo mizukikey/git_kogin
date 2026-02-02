@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>販売情報一覧</title>
+</head>
+<body>
+	<h2>販売一覧</h2>
+	
+	<table>
+		<tr>
+			<th>ID</th>
+			<th>商品名</th>
+			<th>数量</th>
+			<th>合計金額</th>
+			<th>お客様名</th>
+			<th>管理者名</th>
+			<th>販売日</th>
+		</tr>
+
+		<tr th:each="s : ${saleslist}">
+		    <td th:text="${s.id}"></td>
+		    <td th:text="${s.productName}"></td>
+		    <td th:text="${s.quantity}"></td>
+		    <td th:text="${s.sumPrice}"></td>
+		    <td th:text="${s.customerName}"></td>
+		    <td th:text="${s.managerName}"></td>
+		    <td th:text="${#dates.format(s.salesDate, 'yyyy-MM-dd')}"></td>
+		</tr>
+
+	</table>
+	
+	<p class="back">
+	    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
+	</p>
+</body>
+</html>
