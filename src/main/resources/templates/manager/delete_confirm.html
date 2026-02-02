@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>削除情報確認</title>
+</head>
+<body>
+	<h2>削除情報確認</h2>
+    <div>
+        <label>ID：</label>
+        <span th:text="${session.result.id}"></span>
+    </div>
+    <div>
+        <label>お客様名：</label>
+        <span th:text="${session.result.name}"></span>
+    </div>
+    <div>
+        <label>住所：</label>
+        <span th:text="${session.result.address}"></span>
+    </div>
+    <div>
+        <label>電話番号：</label>
+        <span th:text="${session.result.phone_number}"></span>
+    </div>
+	
+	<div>
+	    <label>ユーザID：</label>
+	    <span th:text="${session.result.userId}"></span>
+	</div>
+	
+	<p class="back">
+		<a href="/customer/delete_result" class="btn-back">削除する</a>
+			
+		</p>
+
+	<p class="back">
+	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+	</p>
+
+</body>
+</html>

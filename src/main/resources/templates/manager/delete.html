@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>顧客情報削除</title>
+</head>
+<body>
+	<h2>削除したいレコードを選んでください</h2>
+	<table>
+		
+		<tr>
+			<th>ID</th>
+			<th>お客様名</th>
+			<th>住所</th>
+			<th>電話番号</th>
+			<th>ユーザID</th>
+			<th>削除</th>
+		</tr>
+		
+		<tr th:each="c : ${customer_list}">
+			<td th:text="${c.id}"></td>
+			<td th:text="${c.name}"></td>
+			<td th:text="${c.address}"></td>
+			<td th:text="${c.phone_number}"></td>
+			<td th:text="${c.userId}"></td>
+			<td>
+				<form th:action="@{/customer/delete_confirm}" method="post">
+					<input type="hidden" name="id" th:value="@{${c.id}}">
+					<input type="submit" value="削除">
+				</form>
+			</td>
+		</tr>	
+	</table>
+	<p class="back">
+	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+	</p>
+</body>
+</html>
