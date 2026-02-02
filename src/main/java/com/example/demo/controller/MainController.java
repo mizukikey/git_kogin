@@ -22,8 +22,8 @@ public class MainController {
 		return "/customer/customer_top";
 	}
 	
-	@RequestMapping("/manager/top")
+	@RequestMapping("/manager/manager_top")
 	public String  manager_top(Model m) {
-		return "/manager/top";
+		return "/manager/manager_top";
 	}
 }
