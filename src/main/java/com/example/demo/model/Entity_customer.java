@@ -22,7 +22,7 @@ public class Entity_customer {
     private String name;
 
     @Size(max = 255, message = "住所は255文字以内で入力してください")
-    private String adress;
+    private String address;
     
     @Size(max = 20, message = "電話番号は20文字以内で入力してください")
     private String phone_number;
@@ -38,10 +38,10 @@ public class Entity_customer {
     
 	
 	public Entity_customer(){}
-	public Entity_customer(int id,String name,String adress,String phone_number,String user_id,String password){
+	public Entity_customer(int id,String name,String address,String phone_number,String user_id,String password){
 		this.id=id;
 		this.name=name;
-		this.adress=adress;
+		this.address=address;
 		this.phone_number = phone_number;
 		this.user_id=user_id;
 		this.password=password;
@@ -59,11 +59,11 @@ public class Entity_customer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getAdress() {
-		return adress;
+	public String getAddress() {
+		return address;
 	}
-	public void setAdress(String adress) {
-		this.adress = adress;
+	public void setAddress(String address) {
+		this.address = address;
 	}
 	public String getPhone_number() {
 		return phone_number;
