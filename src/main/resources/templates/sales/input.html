@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>販売情報入力</title>
+</head>
+<body>
+
+<h2>販売情報入力</h2>
+<form th:action="@{/sales/input_confirm}"
+      th:object="${sales}"
+      method="post">
+
+    <!-- 商品 -->
+	<div class="form-row">
+    <label>商品名</label>
+    <select th:field="*{productId}">
+        <option value="">-- 選択してください --</option>
+        <option th:each="p : ${productList}"
+                th:value="${p.id}"
+                th:text="${p.name}">
+        </option>
+    </select>
+	</div>
+	
+	<!-- 数量 -->
+	<div class="form-row">
+	<label>数量</label>
+	<input type="number" th:field="*{quantity}" min="1">
+	</div>
+	
+	<!-- 合計金額 -->
+	<div class="form-row">
+	<label>合計金額</label>
+	<input type="number" th:field="*{sumPrice}">
+	</div>
+
+	
+    <!-- 顧客 -->
+	<div class="form-row">
+    <label>顧客名</label>
+    <select th:field="*{customerId}">
+        <option value="">-- 選択してください --</option>
+        <option th:each="c : ${customerList}"
+                th:value="${c.id}"
+                th:text="${c.name}">
+        </option>
+    </select>
+	</div>
+
+    <!-- 担当者 -->
+	<div class="form-row">
+    <label>担当者名</label>
+    <select th:field="*{managerId}">
+        <option value="">-- 選択してください --</option>
+        <option th:each="m : ${managerList}"
+                th:value="${m.id}"
+                th:text="${m.name}">
+        </option>
+    </select>
+	</div>
+
+    <!-- 販売日 -->
+	<div class="form-row">
+    <label>販売日</label>
+    <input type="date" th:field="*{salesDate}">
+	</div>
+
+    <button type="submit">確認</button>
+	<p class="back">
+	    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
+	</p>
+</form>
+
+</body>
+</html>
+

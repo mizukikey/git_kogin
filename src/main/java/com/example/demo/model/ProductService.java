@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class ProductService {
         Optional<Entity_product> opt = productRepository.findByName(name);
         if (opt.isEmpty()) return false; // 名前なしは重複なし
         return id == null || !opt.get().getId().equals(id); // 新規 or 別IDなら重複
+    }
+    
+    // ← ここ
+    public List<Entity_product> findAll() {
+        return productRepository.findAll();
     }
 
 }

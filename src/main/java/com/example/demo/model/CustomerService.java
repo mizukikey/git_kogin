@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class CustomerService {
         if (opt.isEmpty()) return false;
         return id == null || !opt.get().getId().equals(id); // 新規 or 別IDなら重複
     }
+    
+    public List<Entity_customer> findAll() {
+        return customerRepository.findAll();
+    }
+
 
 }
 
