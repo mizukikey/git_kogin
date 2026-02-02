@@ -7,17 +7,19 @@ body {
 
 /* ヒーローエリア */
 .hero {
-    height: 100vh;                 /* 画面いっぱい */
-    background-image: url("/img/cofee.png");
-    background-size: cover;        /* 画面にフィット */
-    background-position: center;   /* 中央基準 */
+    height: 100vh;
+    background-image: url("/img/coffee.png");
+    background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
 
+    position: relative; /* ← これ重要 */
     display: flex;
     align-items: center;
-    justify-content: flex-start;   /* 左寄せ */
+    justify-content: flex-start;
     padding-left: 60px;
 }
+
 
 /* タイトル文字 */
 .hero-text {
@@ -31,6 +33,7 @@ body {
 }
 
 .hero-text p {
+	color: #4fa475;
     font-size: 18px;
     margin-top: 8px;
 }
