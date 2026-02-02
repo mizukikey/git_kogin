@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>削除情報確認</title>
+</head>
+<body>
+	<h2>削除情報確認</h2>
+	<div><label>商品名：</label><span th:text="${sales.productName}"></span></div>
+	<div><label>数量：</label><span th:text="${sales.quantity}"></span></div>
+	<div><label>合計金額：</label><span th:text="${sales.sumPrice}"></span></div>
+	<div><label>顧客名：</label><span th:text="${sales.customerName}"></span></div>
+	<div><label>管理者名：</label><span th:text="${sales.managerName}"></span></div>
+	<div><label>販売日: </label><span th:text="${#dates.format(sales.salesDate, 'yyyy-MM-dd')}"></span></div>
+
+	<form th:action="@{/sales/delete_result}" method="post">
+	    <input type="hidden" name="id" th:value="${sales.id}">
+	    <button type="submit">削除する</button>
+	</form>
+</body>
+</html>
