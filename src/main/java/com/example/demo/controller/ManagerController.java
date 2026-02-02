@@ -53,6 +53,7 @@ public class ManagerController {
 	    return "/manager/input";
 	}
 
+
 	@PostMapping("/manager/input_confirm")
 	public String manager_input_confirm(
 	        @Validated @ModelAttribute("manager") Entity_manager manager,

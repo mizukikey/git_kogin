@@ -3,14 +3,14 @@
 <head>
 	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
-<title>顧客情報入力</title>
+<title>管理者情報入力</title>
 </head>
 <body>
 
-<h2>顧客情報入力</h2>
+<h2>管理者情報入力</h2>
 
-<form th:action="@{/customer/input_confirm}"
-      th:object="${customer}"
+<form th:action="@{/manager/input_confirm}"
+      th:object="${manager}"
       method="post">
 
 	  <div class="form-row">
@@ -24,23 +24,13 @@
 	  </div>
 	  
 	  <div class="form-row">
-		<label>住所：</label>
-	      <input type="text"
-	             th:field="*{address}"
-	             maxlength="255"
-	             required />
-	      <div class="error-message" th:if="${#fields.hasErrors('address')}"
-	           th:errors="*{address}"></div>
-	  </div>
-	  
-	  <div class="form-row">
 		<label>電話番号：</label>
 	      <input type="text"
-	             th:field="*{phone_number}"
+	             th:field="*{phoneNumber}"
 	             maxlength="20"
 	             required />
-	      <div class="error-message" th:if="${#fields.hasErrors('phone_number')}"
-	           th:errors="*{phone_number}"></div>
+	      <div class="error-message" th:if="${#fields.hasErrors('phoneNumber')}"
+	           th:errors="*{phoneNumber}"></div>
 	  </div>
 	  
 	  <div class="form-row">
@@ -65,7 +55,7 @@
 
     <button type="submit">確認</button>
 	<p class="back">
-	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+	    <a href="top" class="btn-back">管理者管理TOPページに戻る</a>
 	</p>
 </form>
 

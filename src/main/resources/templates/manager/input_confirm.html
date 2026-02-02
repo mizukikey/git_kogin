@@ -3,14 +3,14 @@
 <head>
 	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
-<title>顧客情報確認</title>
+<title>管理者情報確認</title>
 </head>
 <body>
 
-<h2>顧客情報確認</h2>
+<h2>管理者情報確認</h2>
 
-<form th:action="@{/customer/input_result}" 
-      th:object="${customer}" 
+<form th:action="@{/manager/input_result}" 
+      th:object="${manager}" 
       method="post">
 
 	<div>
@@ -20,15 +20,9 @@
 	</div>
 
 	<div>
-	    <label>住所：</label>
-	    <span th:text="*{address}"></span>
-	    <input type="hidden" th:field="*{address}" />
-	</div>
-
-	<div>
 	    <label>電話番号：</label>
-	    <span th:text="*{phone_number}"></span>
-	    <input type="hidden" th:field="*{phone_number}" />
+	    <span th:text="*{phoneNumber}"></span>
+	    <input type="hidden" th:field="*{phoneNumber}" />
 	</div>
 	
 	<div>
@@ -47,7 +41,7 @@
 </form>
 
 <p class="back">
-    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+    <a href="top" class="btn-back">管理者管理TOPページに戻る</a>
 </p>
 
 </body>

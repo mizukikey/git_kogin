@@ -9,36 +9,32 @@
 
 <h2>登録完了</h2>
 
-<p>以下の顧客を登録しました。</p>
+<p>以下の管理者を登録しました。</p>
 
 <div>
-    <label>お客様名：</label>
-    <span th:text="${c.name}"></span>
-</div>
-<div>
-    <label>住所：</label>
-    <span th:text="${c.address}"></span>
+    <label>管理者名：</label>
+    <span th:text="${m.name}"></span>
 </div>
 <div>
     <label>電話番号：</label>
-    <span th:text="${c.phone_number}"></span>
+    <span th:text="${m.phoneNumber}"></span>
 </div>
 <div>
     <label>ユーザID：</label>
-    <span th:text="${c.userId}"></span>
+    <span th:text="${m.userId}"></span>
 </div>
 
 <div>
     <label>パスワード：</label>
-    <span th:text="${c.password}"></span>
+    <span th:text="${m.password}"></span>
 </div>
 
 
 <p class="back">
-<a th:href="@{/customer/input}" class="btn-back">続けて登録する</a>
+<a th:href="@{/manager/input}" class="btn-back">続けて登録する</a>
 </p>
 <p class="back">
-    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+    <a href="top" class="btn-back">管理者管理TOPページに戻る</a>
 </p>
 </body>
 </html>

@@ -11,32 +11,28 @@
 	<h3>以下の商品を変更しました。</h3>
 	<div>
 	    <label>お客様名：</label>
-	    <span th:text="${c.name}"></span>
-	</div>
-	<div>
-	    <label>住所：</label>
-	    <span th:text="${c.address}"></span>
+	    <span th:text="${m.name}"></span>
 	</div>
 	<div>
 	    <label>電話番号：</label>
-	    <span th:text="${c.phone_number}"></span>
+	    <span th:text="${m.phoneNumber}"></span>
 	</div>
 	<div>
 	    <label>ユーザID：</label>
-	    <span th:text="${c.userId}"></span>
+	    <span th:text="${m.userId}"></span>
 	</div>
 
 	<div>
 	    <label>パスワード：</label>
-	    <span th:text="${c.password}"></span>
+	    <span th:text="${m.password}"></span>
 	</div>
 
 	<p class="back">
-	<a th:href="@{/customer/update}" class="btn-back">続けて変更する</a>
+	<a th:href="@{/manager/update}" class="btn-back">続けて変更する</a>
 	</p>
 	
 	<p class="back">
-	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+	    <a href="top" class="btn-back">管理者管理TOPページに戻る</a>
 	</p>
 </body>
 </html>

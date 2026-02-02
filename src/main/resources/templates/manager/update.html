@@ -11,29 +11,27 @@
 		
 		<tr>
 			<th>ID</th>
-			<th>お客様名</th>
-			<th>住所</th>
+			<th>管理者名</th>
 			<th>電話番号</th>
 			<th>ユーザID</th>
 			<th>削除</th>
 		</tr>
 		
-		<tr th:each="c : ${customer_list}">
-			<td th:text="${c.id}"></td>
-			<td th:text="${c.name}"></td>
-			<td th:text="${c.address}"></td>
-			<td th:text="${c.phone_number}"></td>
-			<td th:text="${c.userId}"></td>
+		<tr th:each="m : ${manager_list}">
+			<td th:text="${m.id}"></td>
+			<td th:text="${m.name}"></td>
+			<td th:text="${m.phoneNumber}"></td>
+			<td th:text="${m.userId}"></td>
 			<td>
-				<form th:action="@{/customer/update_input}" method="post">
-					<input type="hidden" name="id" th:value="@{${c.id}}">
+				<form th:action="@{/manager/update_input}" method="post">
+					<input type="hidden" name="id" th:value="@{${m.id}}">
 					<input type="submit" value="変更">
 				</form>
 			</td>
 		</tr>	
 	</table>
 	<p class="back">
-	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+	    <a href="top" class="btn-back">管理者管理TOPページに戻る</a>
 	</p>
 </body>
 </html>

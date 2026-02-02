@@ -22,7 +22,8 @@ public class Entity_manager {
     private String name;
 
     @Size(max = 20, message = "電話番号は20文字以内で入力してください")
-    private String phone_number;
+    @Column(name = "phone_number")
+    private String phoneNumber;
     
     @Column(name = "user_id", unique = true)
     @NotBlank(message = "ユーザIDは必須です")
@@ -35,10 +36,10 @@ public class Entity_manager {
     
 	
 	public Entity_manager(){}
-	public Entity_manager(int id,String name,String phone_number,String userId,String password){
+	public Entity_manager(int id,String name,String phoneNumber,String userId,String password){
 		this.id=id;
 		this.name=name;
-		this.phone_number = phone_number;
+		this.phoneNumber = phoneNumber;
 		this.userId=userId;
 		this.password=password;
 	}
@@ -55,11 +56,11 @@ public class Entity_manager {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getPhone_number() {
-		return phone_number;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
-	public void setPhone_number(String phone_number) {
-		this.phone_number = phone_number;
+	public void setPhoneNumber(String phone_number) {
+		this.phoneNumber = phone_number;
 	}
 	public String getUserId() {
 		return userId;

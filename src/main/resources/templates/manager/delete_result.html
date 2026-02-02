@@ -17,13 +17,10 @@
 	    <label>お客様名：</label>
 	    <span th:text="${session.result.name}"></span>
 	</div>
-	<div>
-	    <label>住所：</label>
-	    <span th:text="${session.result.address}"></span>
-	</div>
+
 	<div>
 	    <label>電話番号：</label>
-	    <span th:text="${session.result.phone_number}"></span>
+	    <span th:text="${session.result.phoneNumber}"></span>
 	</div>
 
 	<div>
@@ -33,7 +30,7 @@
 
 	
 	<p class="back">
-	<a th:href="@{/customer/delete}" class="btn-back">続けて削除する</a>
+	<a th:href="@{/manager/delete}" class="btn-back">続けて削除する</a>
 	</p>
 
 	<p class="back">

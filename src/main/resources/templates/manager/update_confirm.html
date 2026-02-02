@@ -8,8 +8,8 @@
 <body>
 	<h2>商品情報確認</h2>
 	
-	<form th:action="@{/customer/update_result}" 
-	      th:object="${customer}" 
+	<form th:action="@{/manager/update_result}" 
+	      th:object="${manager}" 
 	      method="post">
 		  <input type="hidden" th:field="*{id}">
 
@@ -20,15 +20,9 @@
 		</div>
 
 		<div>
-		    <label>住所：</label>
-		    <span th:text="*{address}"></span>
-		    <input type="hidden" th:field="*{address}" />
-		</div>
-
-		<div>
 		    <label>電話番号：</label>
-		    <span th:text="*{phone_number}"></span>
-		    <input type="hidden" th:field="*{phone_number}" />
+		    <span th:text="*{phoneNumber}"></span>
+		    <input type="hidden" th:field="*{phoneNumber}" />
 		</div>
 		
 		<div>
