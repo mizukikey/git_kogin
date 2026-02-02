@@ -7,35 +7,47 @@
 </head>
 <body>
 	<h2>商品情報確認</h2>
-
-	<form th:action="@{/product/update_result}" 
-	      th:object="${product}" 
+	
+	<form th:action="@{/customer/update_result}" 
+	      th:object="${customer}" 
 	      method="post">
-		  <input type="hidden" th:field="*{id}" />
+		  <input type="hidden" th:field="*{id}">
 
-		  <div>
-		      <label>商品名：</label>
-		      <span th:text="*{name}"></span>
-		      <input type="hidden" th:field="*{name}" />
-		  </div>
+		<div>
+		    <label>お客様名：</label>
+		    <span th:text="*{name}"></span>
+		    <input type="hidden" th:field="*{name}" />
+		</div>
 
-		  <div>
-		      <label>値段：</label>
-		      <span th:text="*{price}"></span>
-		      <input type="hidden" th:field="*{price}" />
-		  </div>
+		<div>
+		    <label>住所：</label>
+		    <span th:text="*{address}"></span>
+		    <input type="hidden" th:field="*{address}" />
+		</div>
 
-		  <div>
-		      <label>在庫数：</label>
-		      <span th:text="*{stock}"></span>
-		      <input type="hidden" th:field="*{stock}" />
-		  </div>
-
+		<div>
+		    <label>電話番号：</label>
+		    <span th:text="*{phone_number}"></span>
+		    <input type="hidden" th:field="*{phone_number}" />
+		</div>
+		
+		<div>
+		    <label>ユーザID：</label>
+		    <span th:text="*{userId}"></span>
+		    <input type="hidden" th:field="*{userId}" />
+		</div>
+		
+		<div>
+		    <label>パスワード：</label>
+		    <span th:text="*{password}"></span>
+		    <input type="hidden" th:field="*{password}" />
+		</div>
+		
 	    <button type="submit">登録</button>
 	</form>
 
 	<p class="back">
-	    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
 	</p>
 </body>
 </html>

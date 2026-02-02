@@ -148,7 +148,7 @@ public class CustomerController {
 
 	        dao_customer.save(customer); // ID付きならUPDATE
 
-	        model.addAttribute("p", customer);
+	        model.addAttribute("c", customer);
 	        return "customer/update_result";
 	    }
 	
