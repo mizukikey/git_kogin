@@ -7,22 +7,31 @@
 </head>
 <body>
 	<h2>削除情報確認</h2>
-    <div>
-        <label>ID：</label>
-        <span th:text="${session.result.id}"></span>
-    </div>
-    <div>
-        <label>商品名：</label>
-        <span th:text="${session.result.name}"></span>
-    </div>
-    <div>
-        <label>値段：</label>
-        <span th:text="${session.result.price}"></span> 円
-    </div>
-    <div>
-        <label>在庫数：</label>
-        <span th:text="${session.result.stock}"></span>
-    </div>
+	<div class="info-row">
+	    <span class="label">ID</span>
+	    <span class="colon">：</span>
+	    <span th:text="${session.result.id}"></span>
+	</div>
+
+	<div class="info-row">
+	    <span class="label">商品名</span>
+	    <span class="colon">：</span>
+	    <span th:text="${session.result.name}"></span>
+	</div>
+
+	<div class="info-row">
+	    <span class="label">値段</span>
+	    <span class="colon">：</span>
+	    <span>
+	        <span th:text="${session.result.price}"></span> 円
+	    </span>
+	</div>
+
+	<div class="info-row">
+	    <span class="label">在庫数</span>
+	    <span class="colon">：</span>
+	    <span th:text="${session.result.stock}"></span>
+	</div>
 
 	<p class="back">
 		<a href="/product/delete_result" class="btn-back">削除する</a>

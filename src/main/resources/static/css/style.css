@@ -193,3 +193,20 @@ form {
 }
 
 
+.info-row {
+    display: grid;
+    grid-template-columns: 120px 20px auto;
+    align-items: center;
+    margin: 8px auto;          /* ← 中央寄せのキモ */
+    width: fit-content;        /* ← 中身の幅で中央に */
+}
+
+.label {
+    text-align: right;
+    font-weight: bold;
+}
+
+.colon {
+    text-align: center;
+}
+
