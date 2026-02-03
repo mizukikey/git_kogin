@@ -178,12 +178,35 @@ form {
     color: #6b4e3d;
 }
 
-.form-row input {
+.form-row select,
+.form-row input[type="date"] {
     width: 240px;
-    padding: 6px 10px;
-    border: 1px solid #7fb99b;
+    padding: 8px 12px;
+    font-size: 14px;
+
+    border: 1px solid #c7d6cc;
     border-radius: 6px;
+
+    background-color: #ffffff;
+    color: #2f4f3e;
+
+    box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
 }
+
+.form-row select:focus,
+.form-row input[type="date"]:focus {
+    outline: none;
+    border-color: #5fa777;
+    box-shadow: 0 0 0 2px rgba(95,167,119,0.25);
+}
+
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.7;
+    cursor: pointer;
+}
+
 
 
 .error-message {
@@ -209,4 +232,20 @@ form {
 .colon {
     text-align: center;
 }
+
+.flatpickr-calendar {
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    font-family: "Segoe UI", sans-serif;
+}
+
+.flatpickr-day.selected {
+    background: #5fa777;
+    border-color: #5fa777;
+}
+
+.flatpickr-day.today {
+    border-color: #5fa777;
+}
+
 
