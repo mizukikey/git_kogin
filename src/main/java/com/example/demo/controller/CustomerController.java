@@ -177,9 +177,18 @@ public class CustomerController {
 		return "/customer/delete_result";
 	}
 	
-	@RequestMapping("/customer/mypage")
-	public String  customer_mypage(Model m) {
-		return "/customer/mypage";
+	
+	@GetMapping("/customer/mypage")
+	public String mypage(HttpSession session, Model model) {
+	    Entity_customer customer = (Entity_customer) session.getAttribute("loginCustomer");
+	    
+	    if (customer == null) {
+	        return "redirect:/customer/login";
+	    }
+
+	    model.addAttribute("customer", customer);
+	    return "customer/mypage";
 	}
+
 	
 }

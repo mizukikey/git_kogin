@@ -10,6 +10,11 @@
 	    <div class="hero-text">
 	        <h1>マイページ</h1>
 	        <p>My page</p>
+			<div>
+			    <label>お客様名：</label>
+			    <span th:text="*{customer.name}"></span>
+			    <input type="hidden" th:field="*{customer.name}" />
+			</div>
 	    </div>
 		
 		<div class="menu-buttons">

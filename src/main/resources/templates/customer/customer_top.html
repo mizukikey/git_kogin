@@ -10,7 +10,13 @@
 	    <div class="hero-text">
 	        <h1>お客様用TOPページ</h1>
 	        <p>Customer TOP page</p>
+			<div>
+			    <label>お客様名：</label>
+			    <span th:text="*{customer.name}"></span>
+			    <input type="hidden" th:field="*{customer.name}" />
+			</div>
 	    </div>
+		
 		
 		<div class="menu-buttons">
 			<a href="mypage" class="menu-btn">マイページへ</a>
