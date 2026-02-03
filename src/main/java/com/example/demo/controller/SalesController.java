@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import java.util.List;
+import java.util.stream.IntStream;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -23,7 +24,6 @@ import com.example.demo.model.DAO_sales;
 import com.example.demo.model.Entity_customer;
 import com.example.demo.model.Entity_manager;
 import com.example.demo.model.Entity_product;
-import com.example.demo.model.Entity_sales;
 import com.example.demo.model.ManagerService;
 import com.example.demo.model.ProductService;
 import com.example.demo.model.SalesService;
@@ -74,18 +74,45 @@ public class SalesController {
 	    return "sales/show";
 	}
 	
+//	@GetMapping("/sales/input")
+//	public String salesInput(Model model) {
+//	    // フォーム用
+//	    model.addAttribute("sales", new Entity_sales());
+//	    model.addAttribute("salesDto", new SalesViewDto());
+//
+//	    // プルダウン用データ
+//	    model.addAttribute("productList", productService.findAll());
+//	    model.addAttribute("customerList", customerService.findAll());
+//	    model.addAttribute("managerList", managerService.findAll());
+//	    model.addAttribute("quantityList", List.of());
+//	    return "sales/input";
+//	}
+	
 	@GetMapping("/sales/input")
-	public String salesInput(Model model) {
-	    // フォーム用
-	    model.addAttribute("sales", new Entity_sales());
-	    model.addAttribute("salesDto", new SalesViewDto());
+	public String salesInput(
+	        @ModelAttribute("salesDto") SalesViewDto dto,
+	        Model model) {
 
-	    // プルダウン用データ
+	    // プルダウン共通
 	    model.addAttribute("productList", productService.findAll());
 	    model.addAttribute("customerList", customerService.findAll());
 	    model.addAttribute("managerList", managerService.findAll());
+
+	    // 数量リスト（商品選択後のみ）
+	    if (dto.getProductId() != null) {
+	        Entity_product product = productService.findById(dto.getProductId());
+	        List<Integer> quantityList = IntStream
+	                .rangeClosed(1, product.getStock())
+	                .boxed()
+	                .toList();
+	        model.addAttribute("quantityList", quantityList);
+	    } else {
+	        model.addAttribute("quantityList", List.of());
+	    }
+
 	    return "sales/input";
 	}
+
 	
 //	@PostMapping("/sales/input_confirm")
 //	public String sales_input_confirm(
@@ -106,24 +133,20 @@ public class SalesController {
 	        Model model) {
 
 	    if (bindingResult.hasErrors()) {
-	        model.addAttribute("productList", productService.findAll());
-	        model.addAttribute("customerList", customerService.findAll());
-	        model.addAttribute("managerList", managerService.findAll());
+	    	setLists(model, dto.getProductId());
 	        return "sales/input";
 	    }
-
-//	    // ID → 名前変換（confirm表示用）
-//	    dto.setProductName(
-//	        productService.findById(dto.getProductId()).getName()
-//	    );
-//	    dto.setCustomerName(
-//	        customerService.findById(dto.getCustomerId()).getName()
-//	    );
-//	    dto.setManagerName(
-//	        managerService.findById(dto.getManagerId()).getName()
-//	    );
-//
-//	    model.addAttribute("salesDto", dto);
+	    try {
+	        salesService.validateStock(dto.getProductId(), dto.getQuantity());
+	    } catch (IllegalArgumentException e) {
+	        bindingResult.rejectValue(
+	            "quantity",
+	            "stock.over",
+	            e.getMessage()
+	        );
+	        setLists(model, dto.getProductId());
+	        return "sales/input";
+	    }
 	    
 	    // 表示用データ取得
 	    Entity_product product = productService.findById(dto.getProductId());
@@ -141,21 +164,29 @@ public class SalesController {
 	    return "sales/input_confirm";
 	}
 	
+	private void setLists(Model model, Integer productId) {
+	    model.addAttribute("productList", productService.findAll());
+	    model.addAttribute("customerList", customerService.findAll());
+	    model.addAttribute("managerList", managerService.findAll());
+	    
+	    if (productId != null) {
+	        Entity_product product = productService.findById(productId);
+
+	        List<Integer> quantityList = IntStream
+	            .rangeClosed(1, product.getStock())
+	            .boxed()
+	            .toList();
+
+	        model.addAttribute("quantityList", quantityList);
+	    } else {
+	        model.addAttribute("quantityList", List.of());
+	    }
+	}
+
+	
 	@PostMapping("/sales/input_result")
 	public String salesInputResult(
 	        @ModelAttribute("salesDto") SalesViewDto dto) {
-
-	    // DTO → Entity 変換
-//	    Entity_sales sales = new Entity_sales();
-//	    sales.setProductId(dto.getProductId());
-//	    sales.setQuantity(dto.getQuantity());
-//	    sales.setSumPrice(dto.getSumPrice());
-//	    sales.setCustomerId(dto.getCustomerId());
-//	    sales.setManagerId(dto.getManagerId());
-//	    sales.setSalesDate(dto.getSalesDate());
-//
-//	    salesService.save(sales);
-		
 		salesService.saveFromDto(dto);
 	    return "sales/input_result";
 	}

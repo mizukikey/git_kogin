@@ -19,7 +19,18 @@ public class SalesService {
 //        salesRepository.save(sales);
 //    }
     
+    public void validateStock(Integer productId, Integer quantity) {
 
+    	Entity_product product = productService.findById(productId);
+
+        if (quantity > product.getStock()) {
+            throw new IllegalArgumentException(
+                "在庫数（" + product.getStock() + "）を超えています"
+            );
+        }
+    }
+    
+    
     public void saveFromDto(SalesViewDto dto) {
 
         Entity_product product = productService.findById(dto.getProductId());
