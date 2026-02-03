@@ -3,10 +3,10 @@
 <head>
 	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
-<title>注文情報一覧</title>
+<title>注文情報削除一覧</title>
 </head>
 <body>
-	<h2>注文情報一覧</h2>
+	<h2>注文情報削除一覧</h2>
 	
 	<table>
 		<tr>
@@ -17,6 +17,7 @@
 			<th>お客様名</th>
 			<th>管理者名</th>
 			<th>販売日</th>
+			<th>削除</th>
 		</tr>
 
 		<tr th:each="o : ${orders}">
@@ -27,12 +28,18 @@
 		    <td th:text="${o.customerName}"></td>
 		    <td th:text="${o.managerName}"></td>
 		    <td th:text="${o.salesDate}"></td>
+			<td>
+				<form th:action="@{/order/delete_confirm}" method="post">
+					<input type="hidden" name="id" th:value="@{${o.id}}">
+					<input type="submit" value="削除">
+				</form>
+			</td>
 		</tr>
 
 	</table>
 	
 	<p class="back">
-	    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
+	    <a href="top" class="btn-back">注文TOPページに戻る</a>
 	</p>
 </body>
 </html>
