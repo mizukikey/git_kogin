@@ -20,6 +20,9 @@ import com.example.demo.dto.SalesViewDto;
 import com.example.demo.model.CustomerService;
 import com.example.demo.model.DAO_product;
 import com.example.demo.model.DAO_sales;
+import com.example.demo.model.Entity_customer;
+import com.example.demo.model.Entity_manager;
+import com.example.demo.model.Entity_product;
 import com.example.demo.model.Entity_sales;
 import com.example.demo.model.ManagerService;
 import com.example.demo.model.ProductService;
@@ -109,18 +112,32 @@ public class SalesController {
 	        return "sales/input";
 	    }
 
-	    // ID → 名前変換（confirm表示用）
-	    dto.setProductName(
-	        productService.findById(dto.getProductId()).getName()
-	    );
-	    dto.setCustomerName(
-	        customerService.findById(dto.getCustomerId()).getName()
-	    );
-	    dto.setManagerName(
-	        managerService.findById(dto.getManagerId()).getName()
-	    );
+//	    // ID → 名前変換（confirm表示用）
+//	    dto.setProductName(
+//	        productService.findById(dto.getProductId()).getName()
+//	    );
+//	    dto.setCustomerName(
+//	        customerService.findById(dto.getCustomerId()).getName()
+//	    );
+//	    dto.setManagerName(
+//	        managerService.findById(dto.getManagerId()).getName()
+//	    );
+//
+//	    model.addAttribute("salesDto", dto);
+	    
+	    // 表示用データ取得
+	    Entity_product product = productService.findById(dto.getProductId());
+	    Entity_customer customer = customerService.findById(dto.getCustomerId());
+	    Entity_manager manager = managerService.findById(dto.getManagerId());
 
-	    model.addAttribute("salesDto", dto);
+	    int sumPrice = product.getPrice() * dto.getQuantity();
+
+	    // confirm画面用
+	    model.addAttribute("productName", product.getName());
+	    model.addAttribute("customerName", customer.getName());
+	    model.addAttribute("managerName", manager.getName());
+	    model.addAttribute("sumPrice", sumPrice);
+	    
 	    return "sales/input_confirm";
 	}
 	
@@ -129,16 +146,17 @@ public class SalesController {
 	        @ModelAttribute("salesDto") SalesViewDto dto) {
 
 	    // DTO → Entity 変換
-	    Entity_sales sales = new Entity_sales();
-	    sales.setProductId(dto.getProductId());
-	    sales.setQuantity(dto.getQuantity());
-	    sales.setSumPrice(dto.getSumPrice());
-	    sales.setCustomerId(dto.getCustomerId());
-	    sales.setManagerId(dto.getManagerId());
-	    sales.setSalesDate(dto.getSalesDate());
-
-	    salesService.save(sales);
-
+//	    Entity_sales sales = new Entity_sales();
+//	    sales.setProductId(dto.getProductId());
+//	    sales.setQuantity(dto.getQuantity());
+//	    sales.setSumPrice(dto.getSumPrice());
+//	    sales.setCustomerId(dto.getCustomerId());
+//	    sales.setManagerId(dto.getManagerId());
+//	    sales.setSalesDate(dto.getSalesDate());
+//
+//	    salesService.save(sales);
+		
+		salesService.saveFromDto(dto);
 	    return "sales/input_result";
 	}
 	

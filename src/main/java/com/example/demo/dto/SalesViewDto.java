@@ -19,8 +19,8 @@ public class SalesViewDto {
     @Min(value = 1, message = "数量は1以上で入力してください")
     private Integer quantity;
     
-    @NotNull(message = "合計金額を入力してください")
-    @Min(value = 1, message = "合計金額は1円以上で入力してください")
+//    @NotNull(message = "合計金額を入力してください")
+//    @Min(value = 1, message = "合計金額は1円以上で入力してください")
     private Integer sumPrice;
     
     @NotNull(message = "顧客を選択してください")

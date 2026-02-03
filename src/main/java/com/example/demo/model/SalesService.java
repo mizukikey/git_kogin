@@ -15,7 +15,25 @@ public class SalesService {
     @Autowired
     private ProductService productService;
 
-    public void save(Entity_sales sales) {
+//    public void save(Entity_sales sales) {
+//        salesRepository.save(sales);
+//    }
+    
+
+    public void saveFromDto(SalesViewDto dto) {
+
+        Entity_product product = productService.findById(dto.getProductId());
+
+        int sumPrice = product.getPrice() * dto.getQuantity();
+
+        Entity_sales sales = new Entity_sales();
+        sales.setProductId(dto.getProductId());
+        sales.setCustomerId(dto.getCustomerId());
+        sales.setManagerId(dto.getManagerId());
+        sales.setQuantity(dto.getQuantity());
+        sales.setSumPrice(sumPrice);
+        sales.setSalesDate(dto.getSalesDate());
+        
         salesRepository.save(sales);
     }
 
