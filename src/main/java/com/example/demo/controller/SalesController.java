@@ -187,7 +187,8 @@ public class SalesController {
 	@PostMapping("/sales/input_result")
 	public String salesInputResult(
 	        @ModelAttribute("salesDto") SalesViewDto dto) {
-		salesService.saveFromDto(dto);
+//		salesService.saveFromDto(dto);
+		salesService.registerSale(dto);
 	    return "sales/input_result";
 	}
 	
