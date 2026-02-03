@@ -59,6 +59,8 @@ body {
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
+	
+	border: 2px solid white; /* 外枠を白にする */
 }
 
 .menu-btn:hover {

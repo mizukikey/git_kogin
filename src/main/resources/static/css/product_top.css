@@ -8,7 +8,7 @@ body {
 /* ヒーローエリア */
 .hero {
     height: 100vh;
-    background-image: url("/img/coffee.png");
+    background-image: url("/img/cofee.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -52,15 +52,16 @@ body {
 .menu-btn {
     width: 220px;
     padding: 14px 0;
-    background-color: #4fa475;
+    background-color: #E9C49F;
     color: white;
     text-align: center;
     border-radius: 30px;
     text-decoration: none;
     font-weight: bold;
     transition: 0.3s;
+	border: 2px solid white; /* 外枠を白にする */
 }
 
 .menu-btn:hover {
-    background-color: #3e8c62;
+    background-color: #F4E1CE;
 }
