@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -215,6 +216,39 @@ public class SalesController {
 	    m.addAttribute("saleslist", list);
 		return "/sales/update";
 	}
+	
+    @GetMapping("/update/{id}")
+    public String updateInput(@PathVariable Integer	id,Model model) {
+
+        SalesViewDto dto = salesService.findByIdForUpdate(id);
+
+        model.addAttribute("salesDto", dto);
+        setLists(model, dto.getProductId());
+
+        return "sales/sales_update_input";
+    }
+    
+    @PostMapping("/update_confirm")
+    public String updateConfirm(
+            @Validated @ModelAttribute("salesDto") SalesViewDto dto,
+            BindingResult result,
+            Model model) {
+
+        if (result.hasErrors()) {
+        	setLists(model, dto.getProductId());
+            return "sales/sales_update_input";
+        }
+
+        model.addAttribute("salesDto", dto);
+        return "sales/sales_update_confirm";
+    }
+
+    @PostMapping("/update")
+    public String update(@ModelAttribute("salesDto") SalesViewDto dto) {
+
+        salesService.update(dto);
+        return "sales/sales_update_result";
+    }
 	
 	
 	@RequestMapping("/sales/delete")

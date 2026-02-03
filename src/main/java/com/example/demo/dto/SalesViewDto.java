@@ -58,6 +58,30 @@ public class SalesViewDto {
         this.managerName = managerName;
         this.salesDate = salesDate;
     }
+    
+    public SalesViewDto(
+    	    Integer id,
+    	    Integer productId,
+    	    String productName,
+    	    Integer quantity,
+    	    Integer sumPrice,
+    	    Integer customerId,
+    	    String customerName,
+    	    Integer managerId,
+    	    String managerName,
+    	    LocalDate salesDate
+    	) {
+    	    this.id = id;
+    	    this.productId = productId;
+    	    this.productName = productName;
+    	    this.quantity = quantity;
+    	    this.sumPrice = sumPrice;
+    	    this.customerId = customerId;
+    	    this.customerName = customerName;
+    	    this.managerId = managerId;
+    	    this.managerName = managerName;
+    	    this.salesDate = salesDate;
+    	}
 
     /* ===== getter（setter不要） ===== */
 

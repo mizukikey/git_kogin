@@ -27,7 +27,7 @@
 		    <td th:text="${s.sumPrice}"></td>
 		    <td th:text="${s.customerName}"></td>
 		    <td th:text="${s.managerName}"></td>
-		    <td th:text="${#dates.format(s.salesDate, 'yyyy-MM-dd')}"></td>
+		    <td th:text="${s.salesDate}"></td>
 			<td>
 				<form th:action="@{/sales/update_input}" method="post">
 					<input type="hidden" name="id" th:value="@{${s.id}}">
