@@ -177,4 +177,9 @@ public class CustomerController {
 		return "/customer/delete_result";
 	}
 	
+	@RequestMapping("/customer/mypage")
+	public String  customer_mypage(Model m) {
+		return "/customer/mypage";
+	}
+	
 }
