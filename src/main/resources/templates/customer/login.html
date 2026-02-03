@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
 <title>顧客用ログイン画面</title>
 </head>
 <body>
-	<p><a href="customer_top">顧客用TOPページ</a></p>
+	<h2>顧客用ログイン画面</h2>
+	<form action="#" th:action="@{/customer/login}" method="post">
+	    <div class="form-row">
+	        <label for="userId">ユーザーID:</label>
+	        <input type="text" id="userId" name="userId" required>
+	    </div>
+	    <div class="form-row">
+	        <label for="password">パスワード:</label>
+	        <input type="password" id="password" name="password" required>
+	    </div>
+	    <div>
+	        <button type="submit">ログイン</button>
+	    </div>
+	    <div th:if="${error}">
+	        <p th:text="${error}" style="color:red;"></p>
+	    </div>
+	</form>
+	
+	<p class="back">
+	    <a href="/" class="btn-back">TOPページに戻る</a>
+	</p>
 </body>
 </html>
