@@ -29,6 +29,11 @@ public class ManagerService {
     public List<Entity_manager> findAll() {
         return managerRepository.findAll();
     }
+    
+    public Entity_manager findById(Integer id) {
+        return managerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
+    }
 
 
 }

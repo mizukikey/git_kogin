@@ -23,56 +23,67 @@
 
 <h2>販売情報入力</h2>
 <form th:action="@{/sales/input_confirm}"
-      th:object="${sales}"
+      th:object="${salesDto}"
       method="post">
 
     <!-- 商品 -->
 	<div class="form-row">
     <label>商品名</label>
-    <select th:field="*{productId}">
+    <select th:field="*{productId}" required>
         <option value="">-- 選択してください --</option>
         <option th:each="p : ${productList}"
                 th:value="${p.id}"
                 th:text="${p.name}">
         </option>
     </select>
+	<div class="error-message" th:if="${#fields.hasErrors('productId')}"
+	     th:errors="*{productId}"></div>
 	</div>
 	
 	<!-- 数量 -->
 	<div class="form-row">
 	<label>数量</label>
-	<input type="number" th:field="*{quantity}" min="1">
+	<input type="number" th:field="*{quantity}" min="1" required>
+	<div class="error-message" th:if="${#fields.hasErrors('quantity')}"
+	     th:errors="*{quantity}"></div>
 	</div>
 	
 	<!-- 合計金額 -->
 	<div class="form-row">
 	<label>合計金額</label>
-	<input type="number" th:field="*{sumPrice}">
+	<input type="number" th:field="*{sumPrice}" required>
+	<div class="error-message" th:if="${#fields.hasErrors('sumPrice')}"
+	     th:errors="*{sumPrice}"></div>
 	</div>
 
 	
     <!-- 顧客 -->
 	<div class="form-row">
     <label>顧客名</label>
-    <select th:field="*{customerId}">
+    <select th:field="*{customerId}" required>
         <option value="">-- 選択してください --</option>
         <option th:each="c : ${customerList}"
                 th:value="${c.id}"
                 th:text="${c.name}">
         </option>
     </select>
+	
+	<div class="error-message" th:if="${#fields.hasErrors('customerId')}"
+	     th:errors="*{customerId}"></div>
 	</div>
 
     <!-- 担当者 -->
 	<div class="form-row">
     <label>担当者名</label>
-    <select th:field="*{managerId}">
+    <select th:field="*{managerId}" required>
         <option value="">-- 選択してください --</option>
         <option th:each="m : ${managerList}"
                 th:value="${m.id}"
                 th:text="${m.name}">
         </option>
     </select>
+	<div class="error-message" th:if="${#fields.hasErrors('managerId')}"
+	     th:errors="*{managerId}"></div>
 	</div>
 
     <!-- 販売日 -->
@@ -80,7 +91,10 @@
 	    <label>販売日</label>
 	    <input type="text"
 	           id="salesDate"
-	           th:field="*{salesDate}">
+	           th:field="*{salesDate}" required>
+			   
+			   <div class="error-message" th:if="${#fields.hasErrors('salesDate')}"
+			        th:errors="*{salesDate}"></div>
 	</div>
 
     <button type="submit">確認</button>

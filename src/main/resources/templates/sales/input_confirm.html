@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>販売情報確認</title>
+</head>
+<body>
+	<h2>販売情報確認</h2>
+	
+	<form th:action="@{/sales/input_result}"
+	      th:object="${salesDto}"
+	      method="post">
+
+	    <p>商品：<span th:text="*{productName}"></span></p>
+	    <p>顧客：<span th:text="*{customerName}"></span></p>
+	    <p>担当：<span th:text="*{managerName}"></span></p>
+	    <p>数量：<span th:text="*{quantity}"></span></p>
+	    <p>合計：<span th:text="*{sumPrice}"></span></p>
+	    <p>日付：<span th:text="*{salesDate}"></span></p>
+
+	    <!-- hiddenで値を保持 -->
+	    <input type="hidden" th:field="*{productId}">
+	    <input type="hidden" th:field="*{customerId}">
+	    <input type="hidden" th:field="*{managerId}">
+	    <input type="hidden" th:field="*{quantity}">
+	    <input type="hidden" th:field="*{sumPrice}">
+	    <input type="hidden" th:field="*{salesDate}">
+
+	    <button type="submit">登録</button>
+	</form>
+	
+	<p class="back">
+	    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
+	</p>
+</body>
+</html>

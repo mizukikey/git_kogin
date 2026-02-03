@@ -30,6 +30,11 @@ public class ProductService {
     public List<Entity_product> findAll() {
         return productRepository.findAll();
     }
+    
+    public Entity_product findById(Integer id) {
+        return productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("商品が見つかりません"));
+    }
 
 }
 

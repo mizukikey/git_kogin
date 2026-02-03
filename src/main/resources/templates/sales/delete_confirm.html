@@ -12,7 +12,7 @@
 	<div><label>合計金額：</label><span th:text="${sales.sumPrice}"></span></div>
 	<div><label>顧客名：</label><span th:text="${sales.customerName}"></span></div>
 	<div><label>管理者名：</label><span th:text="${sales.managerName}"></span></div>
-	<div><label>販売日: </label><span th:text="${#dates.format(sales.salesDate, 'yyyy-MM-dd')}"></span></div>
+	<div><label>販売日: </label><span th:text="${sales.salesDate}"></span></div>
 
 	<form th:action="@{/sales/delete_result}" method="post">
 	    <input type="hidden" name="id" th:value="${sales.id}">

@@ -8,7 +8,11 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,6 +23,7 @@ import com.example.demo.model.DAO_sales;
 import com.example.demo.model.Entity_sales;
 import com.example.demo.model.ManagerService;
 import com.example.demo.model.ProductService;
+import com.example.demo.model.SalesService;
 import com.example.demo.repository.SalesRepository;
 
 
@@ -36,6 +41,9 @@ public class SalesController {
 	
 	@Autowired
 	private CustomerService customerService;
+	
+	@Autowired
+	private SalesService salesService;
 
 
 //	// DAO_Vegetableのコンストラクター。
@@ -67,6 +75,7 @@ public class SalesController {
 	public String salesInput(Model model) {
 	    // フォーム用
 	    model.addAttribute("sales", new Entity_sales());
+	    model.addAttribute("salesDto", new SalesViewDto());
 
 	    // プルダウン用データ
 	    model.addAttribute("productList", productService.findAll());
@@ -74,6 +83,81 @@ public class SalesController {
 	    model.addAttribute("managerList", managerService.findAll());
 	    return "sales/input";
 	}
+	
+//	@PostMapping("/sales/input_confirm")
+//	public String sales_input_confirm(
+//	        BindingResult bindingResult,
+//	        Model model) {
+//
+//	    // ★ Bean Validation エラー
+//	    if (bindingResult.hasErrors()) {
+//	        return "sales/input";
+//	    }
+//
+//	    return "sales/input_confirm";
+//	}
+	@PostMapping("/sales/input_confirm")
+	public String salesInputConfirm(
+	        @Validated @ModelAttribute("salesDto") SalesViewDto dto,
+	        BindingResult bindingResult,
+	        Model model) {
+
+	    if (bindingResult.hasErrors()) {
+	        model.addAttribute("productList", productService.findAll());
+	        model.addAttribute("customerList", customerService.findAll());
+	        model.addAttribute("managerList", managerService.findAll());
+	        return "sales/input";
+	    }
+
+	    // ID → 名前変換（confirm表示用）
+	    dto.setProductName(
+	        productService.findById(dto.getProductId()).getName()
+	    );
+	    dto.setCustomerName(
+	        customerService.findById(dto.getCustomerId()).getName()
+	    );
+	    dto.setManagerName(
+	        managerService.findById(dto.getManagerId()).getName()
+	    );
+
+	    model.addAttribute("salesDto", dto);
+	    return "sales/input_confirm";
+	}
+	
+	@PostMapping("/sales/input_result")
+	public String salesInputResult(
+	        @ModelAttribute("salesDto") SalesViewDto dto) {
+
+	    // DTO → Entity 変換
+	    Entity_sales sales = new Entity_sales();
+	    sales.setProductId(dto.getProductId());
+	    sales.setQuantity(dto.getQuantity());
+	    sales.setSumPrice(dto.getSumPrice());
+	    sales.setCustomerId(dto.getCustomerId());
+	    sales.setManagerId(dto.getManagerId());
+	    sales.setSalesDate(dto.getSalesDate());
+
+	    salesService.save(sales);
+
+	    return "sales/input_result";
+	}
+	
+//	@PostMapping("/sales/input_result")
+//	public String salesInputResult(
+//	        Model model,
+//	        BindingResult result,HttpServletRequest req
+//	) {
+//	    if (result.hasErrors()) {
+//	        return "sales/input";
+//	    }
+//		int id=Integer.parseInt(req.getParameter("id"));
+//	    SalesViewDto dto = salesRepository.findSalesViewById(id);
+//
+////	    dao_sales.save(sales);
+////
+////	    model.addAttribute("s", sales);
+//	    return "sales/input_result";
+//	}
 	
 	@RequestMapping("/sales/update")
 	public String  sales_update(Model m) {

@@ -2,7 +2,7 @@ package com.example.demo.model;
 
 
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -47,7 +47,7 @@ public class Entity_sales {
     @Column(name = "sales_date", nullable = false)
     @NotNull(message = "販売日は必須です")
     @Temporal(TemporalType.DATE)
-    private Date salesDate;
+    private LocalDate salesDate;
 
     /* ===== コンストラクタ ===== */
 
@@ -61,7 +61,7 @@ public class Entity_sales {
             Integer sumPrice,
             Integer customerId,
             Integer managerId,
-            Date salesDate) {
+            LocalDate salesDate) {
 
         this.productId = productId;
         this.quantity = quantity;
@@ -119,11 +119,11 @@ public class Entity_sales {
 		this.managerId = managerId;
 	}
 
-	public Date getSalesDate() {
+	public LocalDate getSalesDate() {
 		return salesDate;
 	}
 
-	public void setSalesDate(Date salesDate) {
+	public void setSalesDate(LocalDate salesDate) {
 		this.salesDate = salesDate;
 	}
     

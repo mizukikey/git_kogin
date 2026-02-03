@@ -29,6 +29,11 @@ public class CustomerService {
     public List<Entity_customer> findAll() {
         return customerRepository.findAll();
     }
+    
+    public Entity_customer findById(Integer id) {
+        return customerRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("顧客が見つかりません"));
+    }
 
 
 }
