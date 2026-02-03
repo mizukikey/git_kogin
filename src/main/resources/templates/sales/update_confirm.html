@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>売上更新確認</title>
+</head>
+<body>
+
+<h2>売上更新（確認）</h2>
+
+<form th:action="@{/sales/update_result}" th:object="${salesDto}" method="post">
+
+    <input type="hidden" th:field="*{id}">
+    <input type="hidden" th:field="*{productId}">
+    <input type="hidden" th:field="*{quantity}">
+    <input type="hidden" th:field="*{customerId}">
+    <input type="hidden" th:field="*{managerId}">
+    <input type="hidden" th:field="*{salesDate}">
+
+    <p>商品：<span th:text="${salesDto.productName}"></span></p>
+    <p>数量：<span th:text="${salesDto.quantity}"></span></p>
+    <p>顧客：<span th:text="${salesDto.customerName}"></span></p>
+    <p>担当者：<span th:text="${salesDto.managerName}"></span></p>
+    <p>販売日：<span th:text="${salesDto.salesDate}"></span></p>
+
+    <button type="submit">更新</button>
+<!--	<p class="back">-->
+<!--	    <a th:href="@{/sales/update_input}" class="btn-back">入力画面に戻る</a>-->
+<!--	</p>-->
+
+
+	<p class="back">
+	    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
+	</p>
+
+</form>
+
+</body>
+</html>

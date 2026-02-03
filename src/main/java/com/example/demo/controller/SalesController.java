@@ -13,7 +13,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -217,18 +216,18 @@ public class SalesController {
 		return "/sales/update";
 	}
 	
-    @GetMapping("/update/{id}")
-    public String updateInput(@PathVariable Integer	id,Model model) {
-
+	@PostMapping("/sales/update_input")
+    public String updateInput(HttpServletRequest req,Model model) {
+    	int id=Integer.parseInt(req.getParameter("id"));
         SalesViewDto dto = salesService.findByIdForUpdate(id);
 
         model.addAttribute("salesDto", dto);
         setLists(model, dto.getProductId());
 
-        return "sales/sales_update_input";
+        return "sales/update_input";
     }
     
-    @PostMapping("/update_confirm")
+    @PostMapping("/sales/update_confirm")
     public String updateConfirm(
             @Validated @ModelAttribute("salesDto") SalesViewDto dto,
             BindingResult result,
@@ -236,18 +235,18 @@ public class SalesController {
 
         if (result.hasErrors()) {
         	setLists(model, dto.getProductId());
-            return "sales/sales_update_input";
+            return "sales/update_input";
         }
 
         model.addAttribute("salesDto", dto);
-        return "sales/sales_update_confirm";
+        return "sales/update_confirm";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/sales/update_result")
     public String update(@ModelAttribute("salesDto") SalesViewDto dto) {
 
         salesService.update(dto);
-        return "sales/sales_update_result";
+        return "sales/update_result";
     }
 	
 	
@@ -268,7 +267,7 @@ public class SalesController {
 	
 	@RequestMapping("/sales/delete_result")
 	public String  delete_result(@RequestParam("id") Integer id) {
-	    dao_sales.deleteById(id);
+	    salesService.deleteSale(id);
 		return "/sales/delete_result";
 	}
 	

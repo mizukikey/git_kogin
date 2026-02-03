@@ -239,5 +239,23 @@ public class SalesService {
         sales.setCustomer(customerRepository.findById(dto.getCustomerId()).orElseThrow());
         sales.setManager(managerRepository.findById(dto.getManagerId()).orElseThrow());
     }
+    
+    @Transactional
+    public void deleteSale(Integer salesId) {
+
+        Entity_sales sales = salesRepository.findById(salesId)
+                .orElseThrow(() -> new IllegalArgumentException("売上が存在しません"));
+
+        Entity_product product = sales.getProduct();
+
+        // 在庫を戻す
+        product.setStock(
+            product.getStock() + sales.getQuantity()
+        );
+
+        // 売上削除
+        salesRepository.delete(sales);
+    }
+
 
 }
