@@ -1,10 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<link rel="stylesheet" href="/css/style.css">
 <meta charset="UTF-8">
 <title>管理者用ログイン画面</title>
 </head>
 <body>
-	<p><a href="manager_top">管理者用TOPページ</a></p>
+	<h2>管理者用ログイン画面</h2>
+	<form action="#" th:action="@{/manager/login}" method="post">
+	    <div class="form-row">
+	        <label for="userId">ユーザーID:</label>
+	        <input type="text" id="userId" name="userId" required>
+	    </div>
+	    <div class="form-row">
+	        <label for="password">パスワード:</label>
+	        <input type="password" id="password" name="password" required>
+	    </div>
+	    <div>
+	        <button type="submit">ログイン</button>
+	    </div>
+	    <div th:if="${error}">
+	        <p th:text="${error}" style="color:red;"></p>
+	    </div>
+	</form>
+	
+	<p class="back">
+	    <a href="/" class="btn-back">総合TOPページに戻る</a>
+	</p>
 </body>
 </html>
