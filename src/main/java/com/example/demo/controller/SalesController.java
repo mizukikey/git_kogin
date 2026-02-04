@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -7,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -267,6 +269,43 @@ public class SalesController {
 	public String  delete_result(@RequestParam("id") Integer id) {
 	    salesService.deleteSale(id);
 		return "/sales/delete_result";
+	}
+	
+	@GetMapping("/sales/summary")
+	public String  sales_summary(Model m) {
+		return "/sales/summary";
+	}
+	
+	@GetMapping("/sales/summary/result")
+	public String summaryResult(
+	        @RequestParam(required = false)
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	        LocalDate from,
+
+	        @RequestParam(required = false)
+	        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+	        LocalDate to,
+	        @RequestParam String type,
+	        Model model) {
+		
+	    if (from == null || to == null) {
+	        model.addAttribute("error", "開始日と終了日は必須です");
+	        return "sales/summary";
+	    }
+		
+		  // ★ 期間チェック
+	    if (to.isBefore(from)) {
+	        model.addAttribute("error", "終了日は開始日以降を指定してください");
+	        return "sales/summary"; // 入力画面に戻す
+	    }
+
+	    Object result = salesService.getSummary(from, to, type);
+
+	    model.addAttribute("type", type);
+	    model.addAttribute("from", from);
+	    model.addAttribute("to", to);
+	    model.addAttribute("result", result);
+	    return "sales/summary_result";
 	}
 	
 

@@ -1,5 +1,7 @@
 package com.example.demo.model;
 
+import java.time.LocalDate;
+
 import jakarta.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -282,6 +284,18 @@ public class SalesService {
         );
         sales.setSumPrice(newProduct.getPrice() * newQuantity);
     }
+    
+    public Object getSummary(LocalDate from, LocalDate to, String type) {
+
+        return switch (type) {
+            case "total" -> salesRepository.sumTotalSales(from, to);
+            case "customer" -> salesRepository.sumByCustomer(from, to);
+            case "manager" -> salesRepository.sumByManager(from, to);
+            case "product" -> salesRepository.sumByProduct(from, to);
+            default -> null;
+        };
+    }
+
 
 
 

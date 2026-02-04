@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+
+	<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    flatpickr("#StartDate", {
+	        locale: "ja",
+	        dateFormat: "Y-m-d"
+	    });
+		
+		flatpickr("#EndDate", {
+		    locale: "ja",
+		    dateFormat: "Y-m-d"
+		});
+	});
+	</script>
+<meta charset="UTF-8">
+<title>販売集計</title>
+</head>
+<body>
+	<h2>販売集計</h2>
+	
+	<form th:action="@{/sales/summary/result}" method="get">
+		
+		<div class="form-row">
+		  <label>開始日</label>
+		  <input type="text" id="StartDate" name="from" required>
+		</div>
+
+		<div class="form-row">
+		  <label>終了日</label>
+		  <input type="text" id="EndDate" name="to" required>
+		</div>
+		
+	  <p th:if="${error}" class="error" th:text="${error}"></p>
+	  
+	  <div class="form-row">
+		<label>選択</label>
+	  <select name="type" required>
+	    <option value="total">全体売上</option>
+	    <option value="customer">顧客別</option>
+	    <option value="manager">担当者別</option>
+		<option value="product">商品別</option>
+	  </select>
+	  </div>
+
+	  <button>集計</button>
+	</form>
+
+	
+	<p class="back">
+	    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
+	</p>
+</body>
+</html>

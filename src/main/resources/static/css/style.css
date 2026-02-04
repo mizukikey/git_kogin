@@ -182,6 +182,12 @@ form {
     margin: 10px 0;
 }
 
+form select {
+    width: 25%;
+    padding: 6px;
+    margin: 8px 0 16px 0;
+}
+
 .form-row {
     display: flex;
     align-items: center;

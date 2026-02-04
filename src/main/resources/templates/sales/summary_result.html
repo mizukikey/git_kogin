@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>販売集計結果</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h2>販売集計結果</h2>
+
+<!-- 集計条件表示 -->
+<div class="summary-condition">
+    <p>
+        集計期間：
+        <span th:text="${from}"></span>
+        〜
+        <span th:text="${to}"></span>
+    </p>
+    <p>
+        集計方法：
+        <span th:switch="${type}">
+            <span th:case="'total'">全体売上</span>
+            <span th:case="'customer'">顧客別売上</span>
+            <span th:case="'manager'">担当者別売上</span>
+        </span>
+    </p>
+</div>
+
+<hr>
+
+<!-- 全体売上 -->
+<div th:if="${type == 'total'}">
+    <h3>全体売上</h3>
+    <p class="total-amount">
+        <span th:text="${#numbers.formatInteger(result, 0, 'COMMA')}"></span> 円
+    </p>
+</div>
+
+<!-- 顧客別 -->
+<div th:if="${type == 'customer'}">
+    <h3>顧客別売上</h3>
+
+    <table class="summary-table">
+        <tr>
+            <th>お客様名</th>
+            <th>お買い上げ金額</th>
+        </tr>
+        <tr th:each="row : ${result}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${#numbers.formatInteger(row[1], 0, 'COMMA')} + ' 円'"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- 担当者別 -->
+<div th:if="${type == 'manager'}">
+    <h3>担当者別売上</h3>
+
+    <table class="summary-table">
+        <tr>
+            <th>担当者名</th>
+            <th>売上金額</th>
+        </tr>
+        <tr th:each="row : ${result}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${#numbers.formatInteger(row[1], 0, 'COMMA')} + ' 円'"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- 商品別 -->
+<div th:if="${type == 'product'}">
+    <h3>商品別売上</h3>
+
+    <table class="summary-table">
+        <tr>
+            <th>商品名</th>
+            <th>売上金額</th>
+        </tr>
+        <tr th:each="row : ${result}">
+            <td th:text="${row[0]}"></td>
+            <td th:text="${#numbers.formatInteger(row[1], 0, 'COMMA')} + ' 円'"></td>
+        </tr>
+    </table>
+</div>
+
+<!-- 戻るボタン -->
+<div class="back">
+    <a th:href="@{/sales/summary}" class="btn-back">条件を変更する</a>
+</div>
+<div class="back">
+    <a th:href="@{/sales/top}" class="btn-back">売上管理TOPへ</a>
+</div>
+</body>
+</html>

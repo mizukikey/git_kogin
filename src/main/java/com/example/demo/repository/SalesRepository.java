@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -85,5 +86,52 @@ public interface SalesRepository extends JpaRepository<Entity_sales, Integer> {
 		SalesViewDto findByIdForCustomer(
 		    @Param("id") Integer id,
 		    @Param("customerId") Integer customerId);
+	
+	@Query("""
+		    SELECT SUM(s.sumPrice)
+		    FROM Entity_sales s
+		    WHERE s.salesDate BETWEEN :from AND :to
+		""")
+		Integer sumTotalSales(
+		    @Param("from") LocalDate from,
+		    @Param("to") LocalDate to
+		);
+
+	
+	@Query("""
+			SELECT s.customer.name, SUM(s.sumPrice)
+			FROM Entity_sales  s
+			WHERE s.salesDate BETWEEN :from AND :to
+			GROUP BY s.customer.id
+			""")
+			List<Object[]> sumByCustomer(
+			    @Param("from") LocalDate from,
+			    @Param("to") LocalDate to
+			);
+			
+	@Query("""
+			SELECT s.manager.name, SUM(s.sumPrice)
+			FROM Entity_sales  s
+			WHERE s.salesDate BETWEEN :from AND :to
+			GROUP BY s.manager.id
+			""")
+			List<Object[]> sumByManager(
+			    @Param("from") LocalDate from,
+			    @Param("to") LocalDate to
+			);
+			
+	@Query("""
+			SELECT s.product.name, SUM(s.sumPrice)
+			FROM Entity_sales  s
+			WHERE s.salesDate BETWEEN :from AND :to
+			GROUP BY s.product.id
+			""")
+			List<Object[]> sumByProduct(
+			    @Param("from") LocalDate from,
+			    @Param("to") LocalDate to
+			);
+
+
+
 
 }
