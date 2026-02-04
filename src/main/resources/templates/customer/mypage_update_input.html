@@ -2,19 +2,19 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>変更情報入力画面</title>
+<title>お客様情報変更画面</title>
 <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
-<h2>変更情報入力</h2>
+<h2>お客様情報変更</h2>
 
-<form th:action="@{/manager/update_confirm}"
-      th:object="${manager}"
+<form th:action="@{/customer/mypage_update_confirm}"
+      th:object="${customer}"
       method="post">
 	  <input type="hidden" th:field="*{id}" />
 	  
 	<div class="form-row">
-	<label>管理者名：</label>
+	<label>お客様名：</label>
 	    <input type="text"
 	           th:field="*{name}"
 	           maxlength="100"
@@ -24,13 +24,23 @@
 	</div>
 
 	<div class="form-row">
+	<label>住所：</label>
+	    <input type="text"
+	           th:field="*{address}"
+	           maxlength="255"
+	           required />
+	    <div class="error-message" th:if="${#fields.hasErrors('address')}"
+	         th:errors="*{address}"></div>
+	</div>
+
+	<div class="form-row">
 	<label>電話番号：</label>
 	    <input type="text"
-	           th:field="*{phoneNumber}"
+	           th:field="*{phone_number}"
 	           maxlength="20"
 	           required />
-	    <div class="error-message" th:if="${#fields.hasErrors('phoneNumber')}"
-	         th:errors="*{phoneNumber}"></div>
+	    <div class="error-message" th:if="${#fields.hasErrors('phone_number')}"
+	         th:errors="*{phone_number}"></div>
 	</div>
 
 	<div class="form-row">
@@ -55,7 +65,7 @@
 
     <button type="submit">確認</button>
 	<p class="back">
-	    <a href="top" class="btn-back">管理者管理TOPページに戻る</a>
+	    <a href="mypage" class="btn-back">マイページに戻る</a>
 	</p>
 </form>
 

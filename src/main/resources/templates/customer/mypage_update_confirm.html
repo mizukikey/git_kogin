@@ -6,23 +6,29 @@
 <title>変更情報確認画面</title>
 </head>
 <body>
-	<h2>管理者情報確認</h2>
+	<h2>変更情報確認</h2>
 	
-	<form th:action="@{/manager/update_result}" 
-	      th:object="${manager}" 
+	<form th:action="@{/customer/mypage_update_result}" 
+	      th:object="${customer}" 
 	      method="post">
 		  <input type="hidden" th:field="*{id}">
 
 		<div>
-		    <label>管理者名：</label>
+		    <label>お客様名：</label>
 		    <span th:text="*{name}"></span>
 		    <input type="hidden" th:field="*{name}" />
 		</div>
 
 		<div>
+		    <label>住所：</label>
+		    <span th:text="*{address}"></span>
+		    <input type="hidden" th:field="*{address}" />
+		</div>
+
+		<div>
 		    <label>電話番号：</label>
-		    <span th:text="*{phoneNumber}"></span>
-		    <input type="hidden" th:field="*{phoneNumber}" />
+		    <span th:text="*{phone_number}"></span>
+		    <input type="hidden" th:field="*{phone_number}" />
 		</div>
 		
 		<div>
@@ -41,7 +47,7 @@
 	</form>
 
 	<p class="back">
-	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+	    <a href="mypage" class="btn-back">マイページに戻る</a>
 	</p>
 </body>
 </html>

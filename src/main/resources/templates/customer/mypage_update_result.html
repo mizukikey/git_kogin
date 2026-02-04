@@ -8,7 +8,7 @@
 <body>
 	<h2>変更完了</h2>
 
-	<h3>以下の顧客情報を変更しました。</h3>
+	<h3>お客様情報を変更しました。</h3>
 	<div>
 	    <label>お客様名：</label>
 	    <span th:text="${c.name}"></span>
@@ -30,13 +30,9 @@
 	    <label>パスワード：</label>
 	    <span th:text="${c.password}"></span>
 	</div>
-
-	<p class="back">
-	<a th:href="@{/customer/update}" class="btn-back">続けて変更する</a>
-	</p>
 	
 	<p class="back">
-	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>
+	    <a href="mypage" class="btn-back">マイページに戻る</a>
 	</p>
 </body>
 </html>

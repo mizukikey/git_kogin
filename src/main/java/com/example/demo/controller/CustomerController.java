@@ -248,6 +248,59 @@ public class CustomerController {
 	    m.addAttribute("customer", customer);
 		return "/customer/mypage_show";
 	}
+	
+	@RequestMapping("/customer/mypage_update_input")
+	public String  mypage_customer_update_input(Model m, HttpServletRequest req,HttpSession session) {
+		Entity_customer customer = (Entity_customer) session.getAttribute("loginCustomer");
+//		int id=Integer.parseInt(req.getParameter("id"));
+//		Optional<Entity_customer> opt=dao_customer.findById(id);
+//		Entity_customer customer = opt.get();  
+		m.addAttribute("customer",customer);
+		return "/customer/mypage_update_input";
+	}
+
+	    // ------------------------
+	    // 更新確認画面
+	    // ------------------------
+	    @PostMapping("/customer/mypage_update_confirm")
+	    public String mypage_customer_update_confirm(
+	            @Validated @ModelAttribute("customer") Entity_customer customer,
+	            BindingResult bindingResult,
+	            Model model) {
+
+	        // Bean Validation エラー
+	        if (bindingResult.hasErrors()) {
+	            return "customer/mypage_update_input";
+	        }
+
+	        // UNIQUEチェック（自分自身のIDは除外）
+	        if (customerService.isUserIdDuplicatedForUpdate(customer.getUserId(), customer.getId())) {
+	            bindingResult.rejectValue("userId", "duplicate", "このユーザIDはすでに登録されています");
+	            return "customer/mypage_update_input";
+	        }
+
+	        model.addAttribute("customer", customer);
+	        return "customer/mypage_update_confirm";
+	    }
+
+	    // ------------------------
+	    // 更新結果画面
+	    // ------------------------
+	    @PostMapping("/customer/mypage_update_result")
+	    public String mypage_customer_update_result(
+	            @Valid @ModelAttribute("customer") Entity_customer customer,
+	            BindingResult result,
+	            Model model) {
+
+	        if (result.hasErrors()) {
+	            return "customer/mypage_update_input";
+	        }
+
+	        dao_customer.save(customer); // ID付きならUPDATE
+
+	        model.addAttribute("c", customer);
+	        return "customer/mypage_update_result";
+	    }
 
 	
 }
