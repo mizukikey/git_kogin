@@ -145,6 +145,22 @@ a.btn-back:hover {
     background-color: #3f7f5f;
 }
 
+.back {
+    text-align: center;   /* 親で中央寄せ */
+    margin-top: 25px;
+}
+
+.btn-back {
+    display: inline-block;  /* ← これ重要 */
+    background: #4fa37a;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+
 /* ===== フォーム内 submit ===== */
 form input[type="submit"] {
     background-color: #4f9f7a;
@@ -217,13 +233,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     margin-top: 4px;
 }
 
+.container {
+    width: 520px;
+    margin: 0 auto;
+    background: #eef5f1;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;   /* ← これが決定打 */
+}
 
 .info-row {
-    display: grid;
-    grid-template-columns: 120px 20px auto;
-    align-items: center;
-    margin: 8px auto;          /* ← 中央寄せのキモ */
-    width: fit-content;        /* ← 中身の幅で中央に */
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.info-row label {
+    display: inline-block;
+    width: 240px;   /* ← ここで縦が揃う */
+    font-weight: bold;
+	text-align: right; 
+}
+
+.info-row span {
+    display: inline-block;
 }
 
 .label {

@@ -237,6 +237,17 @@ public class CustomerController {
 	    model.addAttribute("customer", customer);
 	    return "customer/mypage";
 	}
+	
+	@RequestMapping("/customer/mypage_show")
+	public String  customer_mypage_show(HttpSession session,Model m) {
+	    Entity_customer customer = (Entity_customer) session.getAttribute("loginCustomer");
+	    
+	    if (customer == null) {
+	        return "redirect:/customer/login";
+	    }
+	    m.addAttribute("customer", customer);
+		return "/customer/mypage_show";
+	}
 
 	
 }

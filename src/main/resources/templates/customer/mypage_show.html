@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>お客様情報</title>
+</head>
+<body>
+	<h2>お客様情報</h2>
+
+	<div class="container">
+	    <div class="info-row">
+	        <label>お客様名：</label>
+	        <span th:text="${customer.name}"></span>
+	    </div>
+
+	    <div class="info-row">
+	        <label>住所：</label>
+	        <span th:text="${customer.address}"></span>
+	    </div>
+
+	    <div class="info-row">
+	        <label>電話番号：</label>
+	        <span th:text="${customer.phone_number}"></span>
+	    </div>
+
+	    <div class="info-row">
+	        <label>ユーザID：</label>
+	        <span th:text="${customer.userId}"></span>
+	    </div>
+		
+		<div class="info-row">
+	    <p class="back">
+	        <a href="mypage" class="btn-back">マイページに戻る</a>
+	    </p>
+		</div>
+	</div>
+
+</body>
+</html>
