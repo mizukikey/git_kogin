@@ -301,6 +301,22 @@ public class CustomerController {
 	        model.addAttribute("c", customer);
 	        return "customer/mypage_update_result";
 	    }
+	    
+	   
+		@RequestMapping("/customer/mypage_delete_confirm")
+		public String  mypage_delete_confirm(HttpServletRequest req,HttpServletRequest r,HttpSession s) {
+			Entity_customer customer = (Entity_customer) s.getAttribute("loginCustomer");
+			s.setAttribute("customer",customer);
+			return "/customer/mypage_delete_confirm";
+		}
+		
+		@RequestMapping("/customer/mypage_delete_result")
+		public String  mypage_delete_result(HttpServletRequest r,HttpSession s) {
+			Entity_customer customer = (Entity_customer) s.getAttribute("result");
+		    Integer id = customer.getId();
+		    dao_customer.deleteById(id);
+			return "/customer/mypage_delete_result";
+		}
 
 	
 }

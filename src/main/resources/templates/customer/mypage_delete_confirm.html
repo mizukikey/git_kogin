@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>退会確認</title>
+</head>
+<body>
+	<h2>退会確認</h2>
+    <div>
+        <label>お客様名：</label>
+        <span th:text="${session.customer.name}"></span>
+    </div>
+    <div>
+        <label>住所：</label>
+        <span th:text="${session.customer.address}"></span>
+    </div>
+    <div>
+        <label>電話番号：</label>
+        <span th:text="${session.customer.phone_number}"></span>
+    </div>
+	
+	<div>
+	    <label>ユーザID：</label>
+	    <span th:text="${session.customer.userId}"></span>
+	</div>
+	
+	<p class="back">
+		<a href="/customer/mypage_delete_result" class="btn-back">退会する</a>
+			
+		</p>
+
+	<p class="back">
+	    <a href="mypage" class="btn-back">マイページに戻る</a>
+	</p>
+
+</body>
+</html>
