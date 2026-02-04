@@ -74,19 +74,6 @@ public class SalesController {
 	    return "sales/show";
 	}
 	
-//	@GetMapping("/sales/input")
-//	public String salesInput(Model model) {
-//	    // フォーム用
-//	    model.addAttribute("sales", new Entity_sales());
-//	    model.addAttribute("salesDto", new SalesViewDto());
-//
-//	    // プルダウン用データ
-//	    model.addAttribute("productList", productService.findAll());
-//	    model.addAttribute("customerList", customerService.findAll());
-//	    model.addAttribute("managerList", managerService.findAll());
-//	    model.addAttribute("quantityList", List.of());
-//	    return "sales/input";
-//	}
 	
 	@GetMapping("/sales/input")
 	public String salesInput(
@@ -114,18 +101,6 @@ public class SalesController {
 	}
 
 	
-//	@PostMapping("/sales/input_confirm")
-//	public String sales_input_confirm(
-//	        BindingResult bindingResult,
-//	        Model model) {
-//
-//	    // ★ Bean Validation エラー
-//	    if (bindingResult.hasErrors()) {
-//	        return "sales/input";
-//	    }
-//
-//	    return "sales/input_confirm";
-//	}
 	@PostMapping("/sales/input_confirm")
 	public String salesInputConfirm(
 	        @Validated @ModelAttribute("salesDto") SalesViewDto dto,
@@ -191,23 +166,7 @@ public class SalesController {
 		salesService.registerSale(dto);
 	    return "sales/input_result";
 	}
-	
-//	@PostMapping("/sales/input_result")
-//	public String salesInputResult(
-//	        Model model,
-//	        BindingResult result,HttpServletRequest req
-//	) {
-//	    if (result.hasErrors()) {
-//	        return "sales/input";
-//	    }
-//		int id=Integer.parseInt(req.getParameter("id"));
-//	    SalesViewDto dto = salesRepository.findSalesViewById(id);
-//
-////	    dao_sales.save(sales);
-////
-////	    model.addAttribute("s", sales);
-//	    return "sales/input_result";
-//	}
+
 	
 	@RequestMapping("/sales/update")
 	public String  sales_update(Model m) {
@@ -216,17 +175,42 @@ public class SalesController {
 		return "/sales/update";
 	}
 	
-	@PostMapping("/sales/update_input")
-    public String updateInput(HttpServletRequest req,Model model) {
-    	int id=Integer.parseInt(req.getParameter("id"));
-        SalesViewDto dto = salesService.findByIdForUpdate(id);
+	@GetMapping("/sales/update_input")
+	public String updateInput(
+	        @RequestParam Integer id,
+	        @RequestParam(required = false) Integer productId,
+	        Model model) {
 
-        model.addAttribute("salesDto", dto);
-        setLists(model, dto.getProductId());
+	    SalesViewDto dto = salesService.findByIdForUpdate(id);
 
-        return "sales/update_input";
-    }
-    
+	    if (dto == null) {
+	        return "redirect:/sales/update";
+	    }
+
+	    // ★ 商品を変更した場合は上書き
+	    if (productId != null) {
+	        dto.setProductId(productId);
+	        dto.setQuantity(null); // 数量リセット（重要）
+	    }
+
+	    model.addAttribute("salesDto", dto);
+	    model.addAttribute("productList", productService.findAll());
+	    model.addAttribute("customerList", customerService.findAll());
+	    model.addAttribute("managerList", managerService.findAll());
+
+	    Entity_product product =
+	            productService.findById(dto.getProductId());
+
+	    model.addAttribute(
+	        "quantityList",
+	        IntStream.rangeClosed(1, product.getStock())
+	                 .boxed()
+	                 .toList()
+	    );
+
+	    return "sales/update_input";
+	}
+   
     @PostMapping("/sales/update_confirm")
     public String updateConfirm(
             @Validated @ModelAttribute("salesDto") SalesViewDto dto,
@@ -237,8 +221,22 @@ public class SalesController {
         	setLists(model, dto.getProductId());
             return "sales/update_input";
         }
+        
+        Entity_product product =
+            productService.findById(dto.getProductId());
+        Entity_customer customer =
+            customerService.findById(dto.getCustomerId());
+        Entity_manager manager =
+            managerService.findById(dto.getManagerId());
 
-        model.addAttribute("salesDto", dto);
+        int sumPrice = product.getPrice() * dto.getQuantity();
+
+    	dto.setProductName(product.getName());
+    	dto.setCustomerName(customer.getName());
+    	dto.setManagerName(manager.getName());
+    	dto.setSumPrice(sumPrice);
+    	model.addAttribute("salesDto", dto);
+    	
         return "sales/update_confirm";
     }
 

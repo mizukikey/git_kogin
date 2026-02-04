@@ -238,48 +238,48 @@ public class OrderConstoller {
 		return "/order/update";
 	}
 	
-	@GetMapping("/order/update_input")
-	public String updateInput(
-	        @RequestParam Integer id,
-	        @RequestParam(required = false) Integer productId,
-	        HttpSession session,
-	        Model model) {
-
-	    Entity_customer customer =
-	        (Entity_customer) session.getAttribute("loginCustomer");
-
-	    if (customer == null) {
-	        return "redirect:/customer/login";
-	    }
-
-	    SalesViewDto dto =
-	        salesRepository.findByIdForCustomer(id, customer.getId());
-
-	    if (dto == null) {
-	        return "redirect:/order/update";
-	    }
-
-	    // ★ 商品を変更した場合は上書き
-	    if (productId != null) {
-	        dto.setProductId(productId);
-	    }
-
-	    model.addAttribute("salesDto", dto);
-	    model.addAttribute("productList", productService.findAll());
-	    model.addAttribute("managerList", managerService.findAll());
-
-	    Entity_product product =
-	        productService.findById(dto.getProductId());
-
-	    model.addAttribute(
-	        "quantityList",
-	        IntStream.rangeClosed(1, product.getStock())
-	                 .boxed()
-	                 .toList()
-	    );
-
-	    return "order/update_input";
-	}
+//	@GetMapping("/order/update_input")
+//	public String updateInput(
+//	        @RequestParam Integer id,
+//	        @RequestParam(required = false) Integer productId,
+//	        HttpSession session,
+//	        Model model) {
+//
+//	    Entity_customer customer =
+//	        (Entity_customer) session.getAttribute("loginCustomer");
+//
+//	    if (customer == null) {
+//	        return "redirect:/customer/login";
+//	    }
+//
+//	    SalesViewDto dto =
+//	        salesRepository.findByIdForCustomer(id, customer.getId());
+//
+//	    if (dto == null) {
+//	        return "redirect:/order/update";
+//	    }
+//
+//	    // ★ 商品を変更した場合は上書き
+//	    if (productId != null) {
+//	        dto.setProductId(productId);
+//	    }
+//
+//	    model.addAttribute("salesDto", dto);
+//	    model.addAttribute("productList", productService.findAll());
+//	    model.addAttribute("managerList", managerService.findAll());
+//
+//	    Entity_product product =
+//	        productService.findById(dto.getProductId());
+//
+//	    model.addAttribute(
+//	        "quantityList",
+//	        IntStream.rangeClosed(1, product.getStock())
+//	                 .boxed()
+//	                 .toList()
+//	    );
+//
+//	    return "order/update_input";
+//	}
 
 	
 	@PostMapping("/order/update_confirm")

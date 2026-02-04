@@ -29,7 +29,7 @@
 		    <td th:text="${s.managerName}"></td>
 		    <td th:text="${s.salesDate}"></td>
 			<td>
-				<form th:action="@{/sales/update_input}" method="post">
+				<form th:action="@{/sales/update_input}" method="get">
 					<input type="hidden" name="id" th:value="@{${s.id}}">
 					<input type="submit" value="更新">
 				</form>
