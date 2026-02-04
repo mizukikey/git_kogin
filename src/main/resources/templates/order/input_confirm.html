@@ -9,12 +9,11 @@
 
 <h2>販売情報確認</h2>
 
-<form th:action="@{/sales/input_result}"
+<form th:action="@{/order/input_result}"
       th:object="${salesDto}"
       method="post">
 
     <p>商品：<span th:text="${productName}"></span></p>
-    <p>お客様名：<span th:text="${customerName}"></span></p>
     <p>担当者名：<span th:text="${managerName}"></span></p>
     <p>数量：<span th:text="*{quantity}"></span></p>
     <p>合計金額：<span th:text="${sumPrice} + ' 円'"></span></p>
@@ -22,7 +21,7 @@
 
     <!-- 入力値保持用（最低限） -->
     <input type="hidden" th:field="*{productId}">
-<!--    <input type="hidden" th:field="*{customerId}">-->
+    <input type="hidden" th:field="*{customerId}">
     <input type="hidden" th:field="*{managerId}">
     <input type="hidden" th:field="*{quantity}">
     <input type="hidden" th:field="*{salesDate}">
@@ -31,7 +30,7 @@
 </form>
 
 <p class="back">
-    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
+    <a href="top" class="btn-back">注文TOPページに戻る</a>
 </p>
 
 </body>
