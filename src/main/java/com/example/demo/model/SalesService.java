@@ -192,42 +192,97 @@ public class SalesService {
         salesRepository.delete(sales);
     }
     
+//    @Transactional
+//    public void updateSale(SalesViewDto dto) {
+//
+//        // ① 更新対象を取得
+//        Entity_sales sales = salesRepository
+//            .findById(dto.getId())
+//            .orElseThrow(() ->
+//                new IllegalArgumentException("注文が存在しません"));
+//
+//        // ② 関連Entity取得
+//        Entity_product product =
+//            productRepository.findById(dto.getProductId())
+//                .orElseThrow();
+//
+//        Entity_manager manager =
+//            managerRepository.findById(dto.getManagerId())
+//                .orElseThrow();
+//
+//        Entity_customer customer =
+//            customerRepository.findById(dto.getCustomerId())
+//                .orElseThrow();
+//
+//        // ③ 値を上書き
+//        sales.setProduct(product);
+//        sales.setQuantity(dto.getQuantity());
+//        sales.setManager(manager);
+//        sales.setCustomer(customer);
+//        sales.setSalesDate(dto.getSalesDate());
+//
+//        int sumPrice =
+//            product.getPrice() * dto.getQuantity();
+//        sales.setSumPrice(sumPrice);
+//
+//        // ④ 保存（update）
+//        salesRepository.save(sales);
+//    }
+    
     @Transactional
     public void updateSale(SalesViewDto dto) {
 
-        // ① 更新対象を取得
-        Entity_sales sales = salesRepository
-            .findById(dto.getId())
-            .orElseThrow(() ->
-                new IllegalArgumentException("注文が存在しません"));
+        Entity_sales sales =
+            salesRepository.findById(dto.getId())
+                .orElseThrow(() -> new IllegalArgumentException("注文が存在しません"));
 
-        // ② 関連Entity取得
-        Entity_product product =
+        Entity_product oldProduct = sales.getProduct();
+
+        Entity_product newProduct =
             productRepository.findById(dto.getProductId())
-                .orElseThrow();
+                .orElseThrow(() -> new IllegalArgumentException("商品が存在しません"));
 
-        Entity_manager manager =
-            managerRepository.findById(dto.getManagerId())
-                .orElseThrow();
+        int oldQuantity = sales.getQuantity();
+        int newQuantity = dto.getQuantity();
 
-        Entity_customer customer =
-            customerRepository.findById(dto.getCustomerId())
-                .orElseThrow();
+        // 🔽 商品が同じ場合
+        if (oldProduct.getId().equals(newProduct.getId())) {
 
-        // ③ 値を上書き
-        sales.setProduct(product);
-        sales.setQuantity(dto.getQuantity());
-        sales.setManager(manager);
-        sales.setCustomer(customer);
+            int diff = newQuantity - oldQuantity;
+
+            if (newProduct.getStock() < diff) {
+                throw new IllegalArgumentException("在庫が不足しています");
+            }
+
+            newProduct.setStock(newProduct.getStock() - diff);
+
+        } else {
+            // 🔽 商品が変わった場合
+
+            // ① 旧商品の在庫を戻す
+            oldProduct.setStock(oldProduct.getStock() + oldQuantity);
+
+            // ② 新商品の在庫チェック
+            if (newProduct.getStock() < newQuantity) {
+                throw new IllegalArgumentException("在庫が不足しています");
+            }
+
+            // ③ 新商品の在庫を減らす
+            newProduct.setStock(newProduct.getStock() - newQuantity);
+
+            // ④ sales に新商品をセット
+            sales.setProduct(newProduct);
+        }
+
+        // 共通更新
+        sales.setQuantity(newQuantity);
         sales.setSalesDate(dto.getSalesDate());
-
-        int sumPrice =
-            product.getPrice() * dto.getQuantity();
-        sales.setSumPrice(sumPrice);
-
-        // ④ 保存（update）
-        salesRepository.save(sales);
+        sales.setManager(
+            managerRepository.findById(dto.getManagerId()).orElseThrow()
+        );
+        sales.setSumPrice(newProduct.getPrice() * newQuantity);
     }
+
 
 
 }
