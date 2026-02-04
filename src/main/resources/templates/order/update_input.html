@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+	<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ja.js"></script>
+
+	<script>
+	document.addEventListener("DOMContentLoaded", function () {
+	    flatpickr("#salesDate", {
+	        locale: "ja",
+	        dateFormat: "Y-m-d"
+	    });
+	});
+	</script>
+
+<meta charset="UTF-8">
+<title>販売情報更新</title>
+</head>
+<body>
+	<h2>販売情報更新</h2>
+	
+	<form th:action="@{/order/update_confirm}"
+	      th:object="${salesDto}"
+	      method="post">
+
+	    <input type="hidden" th:field="*{id}">
+		<input type="hidden" th:field="*{customerId}">
+<!--		<input type="hidden" th:field="*{salesDate}">-->
+
+	    <!-- 商品 -->
+		
+		<div class="form-row">
+		    <label>商品名</label>
+		    <select th:field="*{productId}"
+		            onchange="this.form.action='/order/update_input'; this.form.method='get'; this.form.submit();">
+		        <option value="">-- 選択してください --</option>
+		        <option th:each="p : ${productList}"
+		                th:value="${p.id}"
+		                th:text="${p.name}">
+		        </option>
+		    </select>
+		</div>
+		
+<!--	    <select th:field="*{productId}">-->
+<!--	        <option th:each="p : ${productList}"-->
+<!--	                th:value="${p.id}"-->
+<!--	                th:text="${p.name}">-->
+<!--	        </option>-->
+<!--	    </select>-->
+
+	    <!-- 数量 -->
+		
+		<div class="form-row">
+		    <label>数量</label>
+		    <select th:field="*{quantity}" required>
+		        <option value="">-- 選択 --</option>
+		        <option th:each="q : ${quantityList}"
+		                th:value="${q}"
+		                th:text="${q}">
+		        </option>
+		    </select>
+		</div>
+
+	    <!-- 担当者 -->
+		<div class="form-row">
+		    <label>担当者名</label>
+		    <select th:field="*{managerId}" required>
+		        <option value="">-- 選択してください --</option>
+		        <option th:each="m : ${managerList}"
+		                th:value="${m.id}"
+		                th:text="${m.name}">
+		        </option>
+		    </select>
+		</div>
+
+		<div class="form-row">
+		    <label>販売日</label>
+		    <input type="text" id="salesDate" th:field="*{salesDate}" required>
+		</div>
+
+	    <button type="submit">確認</button>
+	</form>
+	
+	<p class="back">
+	    <a href="top" class="btn-back">注文TOPページに戻る</a>
+	</p>
+</body>
+</html>

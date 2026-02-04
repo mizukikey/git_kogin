@@ -156,7 +156,6 @@ public class OrderConstoller {
 	    // 表示用データ取得
 	    Entity_product product = productService.findById(dto.getProductId());
 	    Entity_customer customer = (Entity_customer) session.getAttribute("loginCustomer");
-//	    Entity_customer customer = customerService.findById(dto.getCustomerId());
 	    Entity_manager manager = managerService.findById(dto.getManagerId());
 
 	    int sumPrice = product.getPrice() * dto.getQuantity();
@@ -167,9 +166,6 @@ public class OrderConstoller {
 	    
 	    dto.setCustomerId(customer.getId());
 	    dto.setCustomerName(customer.getName());
-	    
-	    // ★ ここで明示的に検証
-//	    validator.validate(dto, bindingResult);
 
 	    if (bindingResult.hasErrors()) {
 	    	setLists(model, dto.getProductId());
@@ -187,17 +183,8 @@ public class OrderConstoller {
 	        return "order/input";
 	    }
 	    
-//	    if (customer != null) {
-//	        // DTO に顧客IDと顧客名をセット
-//	        dto.setCustomerId(customer.getId());
-//	        dto.setCustomerName(customer.getName());
-//	        System.out.println("customerある");
-//	    }else {
-//	    	System.out.println("空になっている");
-//	    }
 	    // confirm画面用
 	    model.addAttribute("productName", product.getName());
-//	    model.addAttribute("customerName", customer.getName());
 	    model.addAttribute("managerName", manager.getName());
 	    model.addAttribute("sumPrice", sumPrice);
 	    return "order/input_confirm";
@@ -205,7 +192,6 @@ public class OrderConstoller {
 	
 	private void setLists(Model model, Integer productId) {
 	    model.addAttribute("productList", productService.findAll());
-//	    model.addAttribute("customerList", customerService.findAll());
 	    model.addAttribute("managerList", managerService.findAll());
 	    
 	    if (productId != null) {
@@ -252,6 +238,109 @@ public class OrderConstoller {
 		return "/order/update";
 	}
 	
+	@GetMapping("/order/update_input")
+	public String updateInput(
+	        @RequestParam Integer id,
+	        @RequestParam(required = false) Integer productId,
+	        HttpSession session,
+	        Model model) {
+
+	    Entity_customer customer =
+	        (Entity_customer) session.getAttribute("loginCustomer");
+
+	    if (customer == null) {
+	        return "redirect:/customer/login";
+	    }
+
+	    SalesViewDto dto =
+	        salesRepository.findByIdForCustomer(id, customer.getId());
+
+	    if (dto == null) {
+	        return "redirect:/order/update";
+	    }
+
+	    // ★ 商品を変更した場合は上書き
+	    if (productId != null) {
+	        dto.setProductId(productId);
+	    }
+
+	    model.addAttribute("salesDto", dto);
+	    model.addAttribute("productList", productService.findAll());
+	    model.addAttribute("managerList", managerService.findAll());
+
+	    Entity_product product =
+	        productService.findById(dto.getProductId());
+
+	    model.addAttribute(
+	        "quantityList",
+	        IntStream.rangeClosed(1, product.getStock())
+	                 .boxed()
+	                 .toList()
+	    );
+
+	    return "order/update_input";
+	}
+
+	
+	@PostMapping("/order/update_confirm")
+	public String updateConfirm(
+	        @Validated @ModelAttribute("salesDto") SalesViewDto dto,
+	        BindingResult result,
+	        HttpSession session,
+	        Model model) {
+
+	    Entity_customer customer =
+	        (Entity_customer) session.getAttribute("loginCustomer");
+
+	    if (customer == null) {
+	        return "redirect:/customer/login";
+	    }
+
+	    // customer は session で固定
+	    dto.setCustomerId(customer.getId());
+	    dto.setCustomerName(customer.getName());
+
+	    if (result.hasErrors()) {
+	        setLists(model, dto.getProductId());
+	        return "order/update_input";
+	    }
+
+	    Entity_product product =
+	        productService.findById(dto.getProductId());
+
+	    int sumPrice = product.getPrice() * dto.getQuantity();
+	    
+
+    	Entity_manager manager =
+    	    managerService.findById(dto.getManagerId());
+
+    	// ★ DTO に詰める
+    	dto.setProductName(product.getName());
+    	dto.setManagerName(manager.getName());
+    	dto.setSumPrice(sumPrice);
+
+    	// confirm用
+    	model.addAttribute("salesDto", dto);
+
+	    return "order/update_confirm";
+	}
+	
+	@PostMapping("/order/update_result")
+	public String updateResult(
+	        @ModelAttribute("salesDto") SalesViewDto dto,
+	        HttpSession session) {
+
+	    Entity_customer customer =
+	        (Entity_customer) session.getAttribute("loginCustomer");
+
+	    if (customer == null) {
+	        return "redirect:/customer/login";
+	    }
+
+	    salesService.updateSale(dto);
+
+	    return "order/update_result";
+	}
 	
 	@RequestMapping("/order/delete")
 	public String  order_delete(HttpSession session,Model m) {

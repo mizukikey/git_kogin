@@ -64,4 +64,26 @@ public interface SalesRepository extends JpaRepository<Entity_sales, Integer> {
 		    ORDER BY s.id ASC
 		""")
 	 List<SalesViewDto> findByCustomerId(@Param("customerId") Integer customerId);
+	
+	@Query("""
+		    SELECT new com.example.demo.dto.SalesViewDto(
+		        s.id,
+		        s.product.id,
+		        s.product.name,
+		        s.quantity,
+		        s.sumPrice,
+		        s.customer.id,
+		        s.customer.name,
+		        s.manager.id,
+		        s.manager.name,
+		        s.salesDate
+		    )
+		    FROM Entity_sales s
+		    WHERE s.id = :id
+		      AND s.customer.id = :customerId
+		""")
+		SalesViewDto findByIdForCustomer(
+		    @Param("id") Integer id,
+		    @Param("customerId") Integer customerId);
+
 }

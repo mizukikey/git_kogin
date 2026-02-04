@@ -191,6 +191,43 @@ public class SalesService {
         // 売上削除
         salesRepository.delete(sales);
     }
+    
+    @Transactional
+    public void updateSale(SalesViewDto dto) {
+
+        // ① 更新対象を取得
+        Entity_sales sales = salesRepository
+            .findById(dto.getId())
+            .orElseThrow(() ->
+                new IllegalArgumentException("注文が存在しません"));
+
+        // ② 関連Entity取得
+        Entity_product product =
+            productRepository.findById(dto.getProductId())
+                .orElseThrow();
+
+        Entity_manager manager =
+            managerRepository.findById(dto.getManagerId())
+                .orElseThrow();
+
+        Entity_customer customer =
+            customerRepository.findById(dto.getCustomerId())
+                .orElseThrow();
+
+        // ③ 値を上書き
+        sales.setProduct(product);
+        sales.setQuantity(dto.getQuantity());
+        sales.setManager(manager);
+        sales.setCustomer(customer);
+        sales.setSalesDate(dto.getSalesDate());
+
+        int sumPrice =
+            product.getPrice() * dto.getQuantity();
+        sales.setSumPrice(sumPrice);
+
+        // ④ 保存（update）
+        salesRepository.save(sales);
+    }
 
 
 }
