@@ -19,9 +19,11 @@
 		
 		
 		<div class="menu-buttons">
-			<a href="mypage" class="menu-btn">マイページへ</a>
+			<a href="/customer/mypage/top" class="menu-btn">マイページへ</a>
 			<a href="/order/top" class="menu-btn">注文画面へ</a>
-			<a href="/index.html" class="menu-btn">ログアウト</a>
+			<form th:action="@{/customer/logout}" method="get">
+			    <button type="submit" class="menu-btn">ログアウト</button>
+			</form>
 		</div>
 
 	</div>

@@ -8,7 +8,7 @@
 <body>
 	<h2>変更情報確認</h2>
 	
-	<form th:action="@{/customer/mypage_update_result}" 
+	<form th:action="@{/update_result}" 
 	      th:object="${customer}" 
 	      method="post">
 		  <input type="hidden" th:field="*{id}">
@@ -47,7 +47,7 @@
 	</form>
 
 	<p class="back">
-	    <a href="mypage" class="btn-back">マイページに戻る</a>
+	    <a href="top" class="btn-back">マイページに戻る</a>
 	</p>
 </body>
 </html>

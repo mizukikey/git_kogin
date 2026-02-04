@@ -16,11 +16,11 @@
 	        <label for="password">パスワード:</label>
 	        <input type="password" id="password" name="password" required>
 	    </div>
+		<div th:if="${error}">
+		    <p th:text="${error}" style="color:red;"></p>
+		</div>
 	    <div>
 	        <button type="submit">ログイン</button>
-	    </div>
-	    <div th:if="${error}">
-	        <p th:text="${error}" style="color:red;"></p>
 	    </div>
 	</form>
 	

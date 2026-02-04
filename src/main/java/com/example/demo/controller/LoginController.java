@@ -95,6 +95,19 @@ public class LoginController {
         model.addAttribute("manager", manager);
         return "manager/manager_top"; // customer/customer_top.html を表示
     }
+    
+    @GetMapping("/manager/logout")
+    public String managerLogout(HttpSession session) {
+        session.invalidate(); // ★ セッション全削除
+        return "redirect:/";
+    }
+    
+    @GetMapping("/customer/logout")
+    public String customerLogout(HttpSession session) {
+        session.invalidate(); // ★ セッション全削除
+        return "redirect:/";
+    }
+
 
 
 }

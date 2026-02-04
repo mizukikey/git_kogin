@@ -16,7 +16,11 @@
 			<a href="/customer/top" class="menu-btn">顧客管理画面</a>
 			<a href="top" class="menu-btn">管理者管理画面</a>
 			<a href="/sales/top" class="menu-btn">販売管理画面</a>
-			<a href="/index.html" class="menu-btn">ログアウト</a>
+<!--			<a href="/index.html" class="menu-btn">ログアウト</a>-->
+			<form th:action="@{/manager/logout}" method="get">
+			    <button type="submit" class="menu-btn">ログアウト</button>
+			</form>
+
 		</div>
 	</div>
 </body>
