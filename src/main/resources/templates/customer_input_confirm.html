@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>顧客情報確認</title>
+</head>
+<body>
+
+<h2>顧客情報確認</h2>
+
+<form th:action="@{/customer_input_result}" 
+      th:object="${customer}" 
+      method="post">
+
+	<div>
+	    <label>お客様名：</label>
+	    <span th:text="*{name}"></span>
+	    <input type="hidden" th:field="*{name}" />
+	</div>
+
+	<div>
+	    <label>住所：</label>
+	    <span th:text="*{address}"></span>
+	    <input type="hidden" th:field="*{address}" />
+	</div>
+
+	<div>
+	    <label>電話番号：</label>
+	    <span th:text="*{phone_number}"></span>
+	    <input type="hidden" th:field="*{phone_number}" />
+	</div>
+	
+	<div>
+	    <label>ユーザID：</label>
+	    <span th:text="*{userId}"></span>
+	    <input type="hidden" th:field="*{userId}" />
+	</div>
+	
+	<div>
+	    <label>パスワード：</label>
+	    <span th:text="*{password}"></span>
+	    <input type="hidden" th:field="*{password}" />
+	</div>
+	
+    <button type="submit">登録</button>
+</form>
+
+<p class="back">
+    <a href="/" class="btn-back">総合TOPページに戻る</a>
+</p>
+
+</body>
+</html>

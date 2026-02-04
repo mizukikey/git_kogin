@@ -90,6 +90,54 @@ public class CustomerController {
 	    model.addAttribute("c", customer);
 	    return "customer/input_result";
 	}
+	
+	@GetMapping("/customer_input")
+	public String customer_Input(Model model) {
+	    model.addAttribute("customer", new Entity_customer());
+	    return "/customer_input";
+	}
+
+	@PostMapping("/customer_input_confirm")
+	public String customerinput_confirm(
+	        @Validated @ModelAttribute("customer") Entity_customer customer,
+	        BindingResult bindingResult,
+	        Model model) {
+
+	    // ★ Bean Validation エラー
+	    if (bindingResult.hasErrors()) {
+	        return "customer_input";
+	    }
+
+	    // ★ UNIQUE チェック（ここ）
+	    if (customerService.isUserIdDuplicated(customer.getUserId())) {
+	        bindingResult.rejectValue(
+	            "userId",
+	            "duplicate",
+	            "※このユーザIDはすでに登録されています"
+	        );
+	        return "customer_input";
+	    }
+
+	    return "/customer_input_confirm";
+	}
+
+	
+	@PostMapping("/customer_input_result")
+	public String customer_InputResult(
+	        Model model,
+	        @Valid @ModelAttribute("customer") Entity_customer customer,
+	        BindingResult result
+	) {
+	    if (result.hasErrors()) {
+	        return "customer_input";
+	    }
+
+	    dao_customer.save(customer);
+
+	    model.addAttribute("c", customer);
+	    return "customer_input_result";
+	}
+
 
 	
 	@RequestMapping("/customer/update")
