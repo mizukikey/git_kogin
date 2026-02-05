@@ -9,13 +9,15 @@
 	<h2>発注完了</h2>
 
 	<h3>以下の商品を発注しました。</h3>
-	<div>
+	<div class="container">
+	<div class="info-row">
 	    <label>商品名：</label>
 	    <span th:text="${product.name}"></span>
 	</div>
-	<div>
+	<div class="info-row">
 	    <label>更新後の在庫：</label>
 	    <span th:text="${product.stock}"></span>
+	</div>
 	</div>
 
 	<p class="back">

@@ -280,6 +280,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 	transform: translate(0px, 0px);
 }
 
+.info-row input[type="number"] {
+    width: 80px;      /* 横幅を小さく */
+    padding: 4px 6px; /* 内側余白を減らす */
+    font-size: 14px;
+}
+
+
 .btn-submit {
 	display: inline-block;  /* ← これ重要 */
 	margin: 0 auto;
