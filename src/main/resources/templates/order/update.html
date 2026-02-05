@@ -29,10 +29,14 @@
 		    <td th:text="${o.managerName}"></td>
 		    <td th:text="${o.salesDate}"></td>
 			<td>
-				<form th:action="@{/order/update_input}" method="post">
-				    <input type="hidden" name="id" th:value="${o.id}">
-				    <input type="submit" value="更新">
+				<form th:action="@{/order/update_input}" method="get">
+					<input type="hidden" name="id" th:value="@{${o.id}}">
+					<input type="submit" value="更新">
 				</form>
+<!--				<form th:action="@{/order/update_input}" method="post">-->
+<!--				    <input type="hidden" name="id" th:value="${o.id}">-->
+<!--				    <input type="submit" value="更新">-->
+<!--				</form>-->
 			</td>
 		</tr>
 

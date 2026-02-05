@@ -23,7 +23,7 @@ public class SalesViewDto {
 //    @Min(value = 1, message = "合計金額は1円以上で入力してください")
     private Integer sumPrice;
     
-    @NotNull(message = "顧客を選択してください")
+//    @NotNull(message = "顧客を選択してください")
     private Integer customerId;
     private String customerName;
     

@@ -26,7 +26,7 @@
 	      method="post">
 
 	    <input type="hidden" th:field="*{id}">
-		<input type="hidden" th:field="*{productId}">
+<!--		<input type="hidden" th:field="*{productId}">-->
 		<input type="hidden" th:field="*{managerId}">
 <!--		<input type="hidden" th:field="*{customerId}">-->
 <!--		<input type="hidden" th:field="*{salesDate}">-->
@@ -76,10 +76,13 @@
 		        </option>
 		    </select>
 		</div>
-
+		
 		<div class="form-row">
 		    <label>販売日</label>
-		    <input type="text" id="salesDate" th:field="*{salesDate}" required>
+		    <input type="text" id="salesDate" th:field="*{salesDate}">
+			<div class="error-message"
+			     th:if="${#fields.hasErrors('salesDate')}"
+			     th:errors="*{salesDate}"></div>
 		</div>
 
 	    <button type="submit">確認</button>

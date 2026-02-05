@@ -238,30 +238,12 @@ public class OrderController {
 	    m.addAttribute("orders", orders);
 		return "/order/update";
 	}
-//	
-//	@PostMapping("/order/update_input")
-//	public String updateInput(
-//	        @RequestParam Integer id,
-//	        HttpSession session,
-//	        Model model) {
-//
-//	    Entity_customer customer =
-//	        (Entity_customer) session.getAttribute("loginCustomer");
-//
-//	    if (customer == null) {
-//	        return "redirect:/customer/login";
-//	    }
-//
-//	    SalesViewDto dto = salesRepository.findSalesViewById(id);
-//	    model.addAttribute("salesDto", dto);
-//
-//	    return "order/update_input";
-//	}
 	
-	@PostMapping("/order/update_input")
+	@GetMapping("/order/update_input")
 	public String updateInput(
 	        @RequestParam Integer id,
 	        HttpSession session,
+	        @RequestParam(required = false) Integer productId,
 	        Model model) {
 
 	    Entity_customer customer =
@@ -274,43 +256,79 @@ public class OrderController {
 	    // ① Entity を取得
 	    Entity_sales sales =
 	        salesRepository.findById(id).orElse(null);
+	    
+	    SalesViewDto dto = salesService.findByIdForUpdate(id);
 
 	    if (sales == null) {
 	        return "redirect:/order/update";
 	    }
+	    
+	    // ★ 商品を変更した場合は上書き
+	    if (productId != null) {
+	        dto.setProductId(productId);
+	        dto.setQuantity(null); // 数量リセット（重要）
+	    }
 
 	    // ② Entity → DTO
-	    SalesViewDto dto = new SalesViewDto();
-	    dto.setId(sales.getId());
-	    dto.setProductId(sales.getProduct().getId());
-	    dto.setManagerId(sales.getManager().getId());
-	    dto.setQuantity(sales.getQuantity());
-
-	    // ③ Model に入れる（★これが命）
-	    model.addAttribute("salesDto", dto);
-	    model.addAttribute("productList", productService.findAll());
-	    return "order/update_input";
-	}
-	
-//	@PostMapping("/order/update_input")
-//	public String updateInput(
-//	        @RequestParam Integer id,
-//	        Model model) {
-//
-//	    Entity_sales sales =
-//	        salesRepository.findById(id).orElseThrow();
-//
-//	    SalesViewDto dto = new SalesViewDto();
 //	    dto.setId(sales.getId());
 //	    dto.setProductId(sales.getProduct().getId());
 //	    dto.setManagerId(sales.getManager().getId());
 //	    dto.setQuantity(sales.getQuantity());
+
+	    // ③ Model に入れる（★これが命）
+	    model.addAttribute("salesDto", dto);
+	    model.addAttribute("productList", productService.findAll());
+	    model.addAttribute("managerList", managerService.findAll());
+
+	    Entity_product product =
+	            productService.findById(dto.getProductId());
+
+	    model.addAttribute(
+	        "quantityList",
+	        IntStream.rangeClosed(1, product.getStock())
+	                 .boxed()
+	                 .toList()
+	    );
+	    
+	    return "order/update_input";
+	}
+	
+//	@GetMapping("/sales/update_input")
+//	public String updateInput(
+//	        @RequestParam Integer id,
+//	        @RequestParam(required = false) Integer productId,
+//	        Model model) {
+//
+//	    SalesViewDto dto = salesService.findByIdForUpdate(id);
+//
+//	    if (dto == null) {
+//	        return "redirect:/sales/update";
+//	    }
+//
+//	    // ★ 商品を変更した場合は上書き
+//	    if (productId != null) {
+//	        dto.setProductId(productId);
+//	        dto.setQuantity(null); // 数量リセット（重要）
+//	    }
 //
 //	    model.addAttribute("salesDto", dto);
+//	    model.addAttribute("productList", productService.findAll());
+//	    model.addAttribute("customerList", customerService.findAll());
+//	    model.addAttribute("managerList", managerService.findAll());
 //
-//	    return "order/update_input";
+//	    Entity_product product =
+//	            productService.findById(dto.getProductId());
+//
+//	    model.addAttribute(
+//	        "quantityList",
+//	        IntStream.rangeClosed(1, product.getStock())
+//	                 .boxed()
+//	                 .toList()
+//	    );
+//
+//	    return "sales/update_input";
 //	}
-
+   
 	
 	@PostMapping("/order/update_confirm")
 	public String updateConfirm(
@@ -318,7 +336,7 @@ public class OrderController {
 	        BindingResult result,
 	        HttpSession session,
 	        Model model) {
-
+		
 	    Entity_customer customer =
 	        (Entity_customer) session.getAttribute("loginCustomer");
 
