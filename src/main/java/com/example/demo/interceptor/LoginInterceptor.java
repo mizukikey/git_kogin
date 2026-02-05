@@ -19,34 +19,72 @@ public class LoginInterceptor implements HandlerInterceptor {
         String uri = request.getRequestURI();
 
         /* ===== manager画面 ===== */
+//        if (uri.startsWith("/manager")) {
+//
+//            if (uri.equals("/manager/login") || uri.equals("/manager/logout")) {
+//                return true;
+//            }
+//
+//            if (session == null || session.getAttribute("loginManager") == null) {
+//                response.sendRedirect("/manager/login");
+//                return false;
+//            }
+//        }
         if (uri.startsWith("/manager")) {
 
-            if (uri.equals("/manager/login") || uri.equals("/manager/logout")) {
+            // GET/POST の login/logout を無条件通過
+            if ((uri.equals("/manager/login") && request.getMethod().equalsIgnoreCase("GET"))
+                || (uri.equals("/manager/login") && request.getMethod().equalsIgnoreCase("POST"))
+                || uri.equals("/manager/logout")) {
                 return true;
             }
 
-            if (session == null || session.getAttribute("loginManager") == null) {
+            // customer or manager 未ログインはリダイレクト
+            if (session == null ||
+               (session.getAttribute("loginCustomer") == null
+             && session.getAttribute("loginManager") == null)) {
                 response.sendRedirect("/manager/login");
                 return false;
             }
         }
 
         /* ===== customer画面 ===== */
+//        if (uri.startsWith("/customer")) {
+//
+//            if (uri.equals("/customer/login") || uri.equals("/customer/logout")) {
+//                return true;
+//            }
+//
+//            // customer or manager どちらも未ログインはNG
+//            if (session == null ||
+//               (session.getAttribute("loginCustomer") == null
+//             && session.getAttribute("loginManager") == null)) {
+//
+//                response.sendRedirect("/customer/login");
+//                return false;
+//            }
+//        }
+        
+        /* ===== customer画面 ===== */
         if (uri.startsWith("/customer")) {
 
-            if (uri.equals("/customer/login") || uri.equals("/customer/logout")) {
+            // GET/POST の login/logout を無条件通過
+            if ((uri.equals("/customer/login") && request.getMethod().equalsIgnoreCase("GET"))
+                || (uri.equals("/customer/login") && request.getMethod().equalsIgnoreCase("POST"))
+                || uri.equals("/customer/logout")) {
                 return true;
             }
 
-            // customer or manager どちらも未ログインはNG
+            // customer or manager 未ログインはリダイレクト
             if (session == null ||
                (session.getAttribute("loginCustomer") == null
              && session.getAttribute("loginManager") == null)) {
-
                 response.sendRedirect("/customer/login");
                 return false;
             }
         }
+
+
 
         /* ===== customerログイン必須機能 ===== */
         if (uri.startsWith("/order")
@@ -70,6 +108,9 @@ public class LoginInterceptor implements HandlerInterceptor {
                 return false;
             }
         }
+        System.out.println("Interceptor URI: " + request.getRequestURI());
+        System.out.println("Session: " + session);
+
 
         return true;
     }
