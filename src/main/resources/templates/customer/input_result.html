@@ -9,30 +9,7 @@
 
 <h2>登録完了</h2>
 
-<p>以下の顧客を登録しました。</p>
-
-<div>
-    <label>お客様名：</label>
-    <span th:text="${c.name}"></span>
-</div>
-<div>
-    <label>住所：</label>
-    <span th:text="${c.address}"></span>
-</div>
-<div>
-    <label>電話番号：</label>
-    <span th:text="${c.phone_number}"></span>
-</div>
-<div>
-    <label>ユーザID：</label>
-    <span th:text="${c.userId}"></span>
-</div>
-
-<div>
-    <label>パスワード：</label>
-    <span th:text="${c.password}"></span>
-</div>
-
+<h2>顧客を登録しました。</h2>
 
 <p class="back">
 <a th:href="@{/customer/input}" class="btn-back">続けて登録する</a>

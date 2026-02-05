@@ -8,24 +8,8 @@
 <body>
 	<h2>変更完了</h2>
 
-	<h3>以下の管理者情報を変更しました。</h3>
-	<div>
-	    <label>管理者名：</label>
-	    <span th:text="${m.name}"></span>
-	</div>
-	<div>
-	    <label>電話番号：</label>
-	    <span th:text="${m.phoneNumber}"></span>
-	</div>
-	<div>
-	    <label>ユーザID：</label>
-	    <span th:text="${m.userId}"></span>
-	</div>
+	<h3>管理者情報を変更しました。</h3>
 
-	<div>
-	    <label>パスワード：</label>
-	    <span th:text="${m.password}"></span>
-	</div>
 
 	<p class="back">
 	<a th:href="@{/manager/update}" class="btn-back">続けて変更する</a>

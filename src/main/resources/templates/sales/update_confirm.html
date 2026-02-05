@@ -17,19 +17,40 @@
     <input type="hidden" th:field="*{customerId}">
     <input type="hidden" th:field="*{managerId}">
     <input type="hidden" th:field="*{salesDate}">
-
-    <p>商品：<span th:text="${salesDto.productName}"></span></p>
-    <p>数量：<span th:text="${salesDto.quantity}"></span></p>
-    <p>顧客：<span th:text="${salesDto.customerName}"></span></p>
-    <p>担当者：<span th:text="${salesDto.managerName}"></span></p>
-    <p>販売日：<span th:text="${salesDto.salesDate}"></span></p>
-
+	
+	<div class="container">
+	<div class="info-row">
+    <label>商品名：</label>
+	<span th:text="${salesDto.productName}"></span>
+	</div>
+	
+	<div class="info-row">
+    <label>数量：</label>
+	<span th:text="${salesDto.quantity}"></span>
+	</div>
+	
+	<div class="info-row">
+    <label>顧客：</label>
+	<span th:text="${salesDto.customerName}"></span>
+	</div>
+	
+	<div class="info-row">
+    <label>担当者：</label>
+	<span th:text="${salesDto.managerName}"></span>
+	</div>
+	
+	<div class="info-row">
+    <label>販売日：</label>
+	<span th:text="${salesDto.salesDate}"></span>
+	</div>
+	
+	<div class="info-row">
     <button type="submit">更新</button>
+	</div>
+	</div>
 <!--	<p class="back">-->
 <!--	    <a th:href="@{/sales/update_input}" class="btn-back">入力画面に戻る</a>-->
 <!--	</p>-->
-
-
 	<p class="back">
 	    <a href="top" class="btn-back">販売管理TOPページに戻る</a>
 	</p>

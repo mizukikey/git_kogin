@@ -7,28 +7,29 @@
 </head>
 <body>
 	<h2>削除情報確認</h2>
-    <div>
+	<div class="container">
+    <div class="info-row">
         <label>ID：</label>
         <span th:text="${session.result.id}"></span>
     </div>
-    <div>
+    <div class="info-row">
         <label>管理者名：</label>
         <span th:text="${session.result.name}"></span>
     </div>
-    <div>
+    <div class="info-row">
         <label>電話番号：</label>
         <span th:text="${session.result.phoneNumber}"></span>
     </div>
 	
-	<div>
+	<div class="info-row">
 	    <label>ユーザID：</label>
 	    <span th:text="${session.result.userId}"></span>
 	</div>
+	</div>
 	
 	<p class="back">
-		<a href="/manager/delete_result" class="btn-back">削除する</a>
-			
-		</p>
+		<a href="/manager/delete_result" class="btn-back">削除する</a>		
+	</p>
 
 	<p class="back">
 	    <a href="top" class="btn-back">顧客管理TOPページに戻る</a>

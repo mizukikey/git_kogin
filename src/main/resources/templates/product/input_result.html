@@ -9,20 +9,7 @@
 
 <h2>登録完了</h2>
 
-<p>以下の商品を登録しました。</p>
-
-<div>
-    <label>商品名：</label>
-    <span th:text="${p.name}"></span>
-</div>
-<div>
-    <label>値段：</label>
-    <span th:text="${p.price}"></span> 円
-</div>
-<div>
-    <label>在庫数：</label>
-    <span th:text="${p.stock}"></span>
-</div>
+<p>商品を登録しました。</p>
 
 <p class="back">
 <a th:href="@{/product/input}" class="btn-back">続けて登録する</a>

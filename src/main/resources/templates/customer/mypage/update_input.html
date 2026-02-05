@@ -8,7 +8,7 @@
 <body>
 <h2>お客様情報変更</h2>
 
-<form th:action="@{/update_confirm}"
+<form th:action="@{/customer/mypage/update_confirm}"
       th:object="${customer}"
       method="post">
 	  <input type="hidden" th:field="*{id}" />

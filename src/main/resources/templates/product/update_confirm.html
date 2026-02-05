@@ -12,26 +12,29 @@
 	      th:object="${product}" 
 	      method="post">
 		  <input type="hidden" th:field="*{id}" />
-
-		  <div>
+		  <div class="container">
+		  <div class="info-row">
 		      <label>商品名：</label>
 		      <span th:text="*{name}"></span>
 		      <input type="hidden" th:field="*{name}" />
 		  </div>
 
-		  <div>
+		  <div class="info-row">
 		      <label>値段：</label>
 		      <span th:text="*{price}"></span>
 		      <input type="hidden" th:field="*{price}" />
 		  </div>
 
-		  <div>
+		  <div class="info-row">
 		      <label>在庫数：</label>
 		      <span th:text="*{stock}"></span>
 		      <input type="hidden" th:field="*{stock}" />
 		  </div>
-
+		  
+		 <div class="info-row">
 	    <button type="submit">登録</button>
+		</div>
+		</div>
 	</form>
 
 	<p class="back">

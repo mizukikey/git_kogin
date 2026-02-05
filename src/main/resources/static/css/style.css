@@ -66,9 +66,8 @@ input:focus {
     margin-bottom: 10px;
 }
 
-/* ===== 通常ボタン ===== */
 button {
-    margin-top: 30px;
+    margin: 30px auto 0;
     background-color: #4f9f7a;
     color: #ffffff;
     border: none;
@@ -76,8 +75,9 @@ button {
     border-radius: 22px;
     font-size: 15px;
     cursor: pointer;
-	
+    display: block;   /* ← 念のため */
 }
+
 
 button:hover {
     background-color: #5a3f2f;
@@ -188,6 +188,7 @@ form select {
     margin: 8px 0 16px 0;
 }
 
+
 .form-row {
     display: flex;
     align-items: center;
@@ -258,6 +259,31 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     width: 240px;   /* ← ここで縦が揃う */
     font-weight: bold;
 	text-align: right; 
+}
+
+.info-row form {
+	display: block;
+    margin: 0 auto;
+	transform: translate(0px, 0px);
+}
+
+
+.info-row button {
+	display: block;
+	margin: 40px auto 0;
+	transform: translate(35px, 8px);
+}
+
+.info-row form button {
+	display: block;
+	margin: 40px auto 0;
+	transform: translate(0px, 0px);
+}
+
+.btn-submit {
+	display: inline-block;  /* ← これ重要 */
+	margin: 0 auto;
+	
 }
 
 .info-row span {

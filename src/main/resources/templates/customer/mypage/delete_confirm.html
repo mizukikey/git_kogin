@@ -7,32 +7,35 @@
 </head>
 <body>
 	<h2>退会確認</h2>
-    <div>
-        <label>お客様名：</label>
-        <span th:text="${session.customer.name}"></span>
-    </div>
-    <div>
-        <label>住所：</label>
-        <span th:text="${session.customer.address}"></span>
-    </div>
-    <div>
-        <label>電話番号：</label>
-        <span th:text="${session.customer.phone_number}"></span>
-    </div>
 	
-	<div>
-	    <label>ユーザID：</label>
-	    <span th:text="${session.customer.userId}"></span>
-	</div>
+	<div class="container">
+	    <div class="info-row">
+	        <label>お客様名：</label>
+	        <span th:text="${session.customer.name}"></span>
+	    </div>
+	    <div class="info-row">
+	        <label>住所：</label>
+	        <span th:text="${session.customer.address}"></span>
+	    </div>
+	    <div class="info-row">
+	        <label>電話番号：</label>
+	        <span th:text="${session.customer.phone_number}"></span>
+	    </div>
+		
+		<div class="info-row">
+		    <label>ユーザID：</label>
+		    <span th:text="${session.customer.userId}"></span>
+		
+		
+		<p class="back">
+			<a href="delete_result" class="btn-back">退会する</a>
+				
+			</p>
 	
-	<p class="back">
-		<a href="delete_result" class="btn-back">退会する</a>
-			
+		<p class="back">
+		    <a href="top" class="btn-back">マイページに戻る</a>
 		</p>
-
-	<p class="back">
-	    <a href="top" class="btn-back">マイページに戻る</a>
-	</p>
+	</div>
 
 </body>
 </html>

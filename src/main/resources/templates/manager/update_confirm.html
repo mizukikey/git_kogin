@@ -12,32 +12,34 @@
 	      th:object="${manager}" 
 	      method="post">
 		  <input type="hidden" th:field="*{id}">
-
-		<div>
+		<div class="container">
+		<div class="info-row">
 		    <label>管理者名：</label>
 		    <span th:text="*{name}"></span>
 		    <input type="hidden" th:field="*{name}" />
 		</div>
 
-		<div>
+		<div class="info-row">
 		    <label>電話番号：</label>
 		    <span th:text="*{phoneNumber}"></span>
 		    <input type="hidden" th:field="*{phoneNumber}" />
 		</div>
 		
-		<div>
+		<div class="info-row">
 		    <label>ユーザID：</label>
 		    <span th:text="*{userId}"></span>
 		    <input type="hidden" th:field="*{userId}" />
 		</div>
 		
-		<div>
+		<div class="info-row">
 		    <label>パスワード：</label>
 		    <span th:text="*{password}"></span>
 		    <input type="hidden" th:field="*{password}" />
 		</div>
-		
-	    <button type="submit">登録</button>
+		<div class="info-row">
+	    <button type="submit">変更</button>
+		</div>
+		</div>
 	</form>
 
 	<p class="back">
