@@ -22,6 +22,7 @@ import com.example.demo.model.CustomerService;
 import com.example.demo.model.Entity_customer;
 import com.example.demo.model.Entity_manager;
 import com.example.demo.model.Entity_product;
+import com.example.demo.model.Entity_sales;
 import com.example.demo.model.ManagerService;
 import com.example.demo.model.ProductService;
 import com.example.demo.model.SalesService;
@@ -237,11 +238,10 @@ public class OrderConstoller {
 	    m.addAttribute("orders", orders);
 		return "/order/update";
 	}
-	
-//	@GetMapping("/order/update_input")
+//	
+//	@PostMapping("/order/update_input")
 //	public String updateInput(
 //	        @RequestParam Integer id,
-//	        @RequestParam(required = false) Integer productId,
 //	        HttpSession session,
 //	        Model model) {
 //
@@ -252,31 +252,61 @@ public class OrderConstoller {
 //	        return "redirect:/customer/login";
 //	    }
 //
-//	    SalesViewDto dto =
-//	        salesRepository.findByIdForCustomer(id, customer.getId());
+//	    SalesViewDto dto = salesRepository.findSalesViewById(id);
+//	    model.addAttribute("salesDto", dto);
 //
-//	    if (dto == null) {
-//	        return "redirect:/order/update";
-//	    }
+//	    return "order/update_input";
+//	}
+	
+	@PostMapping("/order/update_input")
+	public String updateInput(
+	        @RequestParam Integer id,
+	        HttpSession session,
+	        Model model) {
+
+	    Entity_customer customer =
+	        (Entity_customer) session.getAttribute("loginCustomer");
+
+	    if (customer == null) {
+	        return "redirect:/customer/login";
+	    }
+
+	    // ① Entity を取得
+	    Entity_sales sales =
+	        salesRepository.findById(id).orElse(null);
+
+	    if (sales == null) {
+	        return "redirect:/order/update";
+	    }
+
+	    // ② Entity → DTO
+	    SalesViewDto dto = new SalesViewDto();
+	    dto.setId(sales.getId());
+	    dto.setProductId(sales.getProduct().getId());
+	    dto.setManagerId(sales.getManager().getId());
+	    dto.setQuantity(sales.getQuantity());
+
+	    // ③ Model に入れる（★これが命）
+	    model.addAttribute("salesDto", dto);
+	    model.addAttribute("productList", productService.findAll());
+	    return "order/update_input";
+	}
+	
+//	@PostMapping("/order/update_input")
+//	public String updateInput(
+//	        @RequestParam Integer id,
+//	        Model model) {
 //
-//	    // ★ 商品を変更した場合は上書き
-//	    if (productId != null) {
-//	        dto.setProductId(productId);
-//	    }
+//	    Entity_sales sales =
+//	        salesRepository.findById(id).orElseThrow();
+//
+//	    SalesViewDto dto = new SalesViewDto();
+//	    dto.setId(sales.getId());
+//	    dto.setProductId(sales.getProduct().getId());
+//	    dto.setManagerId(sales.getManager().getId());
+//	    dto.setQuantity(sales.getQuantity());
 //
 //	    model.addAttribute("salesDto", dto);
-//	    model.addAttribute("productList", productService.findAll());
-//	    model.addAttribute("managerList", managerService.findAll());
-//
-//	    Entity_product product =
-//	        productService.findById(dto.getProductId());
-//
-//	    model.addAttribute(
-//	        "quantityList",
-//	        IntStream.rangeClosed(1, product.getStock())
-//	                 .boxed()
-//	                 .toList()
-//	    );
 //
 //	    return "order/update_input";
 //	}
