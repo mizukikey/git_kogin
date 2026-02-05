@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/style.css">
+    <meta charset="UTF-8">
+    <title>在庫情報確認</title>
+</head>
+<body>
+    <h2>在庫情報確認</h2>
+    <div class="info-row">
+        <span class="label">ID</span>
+        <span class="colon">：</span>
+        <span th:text="${session.result.id}"></span>
+    </div>
+
+    <div class="info-row">
+        <span class="label">商品名</span>
+        <span class="colon">：</span>
+        <span th:text="${session.result.name}"></span>
+    </div>
+
+    <div class="info-row">
+        <span class="label">値段</span>
+        <span class="colon">：</span>
+        <span>
+            <span th:text="${session.result.price}"></span> 円
+        </span>
+    </div>
+
+    <div class="info-row">
+        <span class="label">在庫数</span>
+        <span class="colon">：</span>
+        <span th:text="${session.result.stock}"></span>
+    </div>
+
+    <!-- 発注数を入力するフォーム -->
+    <form action="/product/stock_result" method="post">
+        <label for="orderQty">発注数：</label>
+        <input type="number" id="orderQty" name="orderQty" min="1" required>
+        <button type="submit" class="btn-back">発注する</button>
+    </form>
+
+    <p class="back">
+        <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+    </p>
+</body>
+</html>

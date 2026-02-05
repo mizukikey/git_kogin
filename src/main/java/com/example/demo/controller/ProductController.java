@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.demo.model.DAO_product;
 import com.example.demo.model.Entity_product;
@@ -176,5 +177,40 @@ public class ProductController {
 	    dao_product.deleteById(id);
 		return "/product/delete_result";
 	}
+	
+	@RequestMapping("/product/stock")
+	public String  stock_update(Model m) {
+		List<Entity_product> product_list=dao_product.findAll();
+		m.addAttribute("product_list",product_list);
+		return "/product/stock";
+	}
+	
+	@RequestMapping("/product/stock_confirm")
+	public String  stock_confirm(HttpServletRequest req,HttpServletRequest r,HttpSession s) {
+		int id=Integer.parseInt(req.getParameter("id"));
+		Optional<Entity_product> opt=dao_product.findById(id);
+		Entity_product result = opt.get();  
+		s.setAttribute("result",result);
+		return "/product/stock_confirm";
+	}
+	
+	@PostMapping("/product/stock_result")
+	public String stock_result(@RequestParam("orderQty") Integer orderQty, HttpSession session, Model model) {
+	    // セッションから商品情報を取得
+	    Entity_product product = (Entity_product) session.getAttribute("result");
+	    if (product != null) {
+	        // 在庫を更新
+	        int newStock = product.getStock() + orderQty;
+	        product.setStock(newStock);
+	        
+	        // DBに保存
+	        dao_product.save(product);
+	        
+	        // 更新後の情報をモデルに渡す
+	        model.addAttribute("product", product);
+	    }
+	    return "/product/stock_result";
+	}
+
 	
 }

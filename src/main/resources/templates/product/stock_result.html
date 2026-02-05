@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" href="/css/style.css">
+<meta charset="UTF-8">
+<title>発注結果表示</title>
+</head>
+<body>
+	<h2>発注完了</h2>
+
+	<h3>以下の商品を発注しました。</h3>
+	<div>
+	    <label>商品名：</label>
+	    <span th:text="${product.name}"></span>
+	</div>
+	<div>
+	    <label>更新後の在庫：</label>
+	    <span th:text="${product.stock}"></span>
+	</div>
+
+	<p class="back">
+	    <a href="top" class="btn-back">商品管理TOPページに戻る</a>
+	</p>
+</body>
+</html>
