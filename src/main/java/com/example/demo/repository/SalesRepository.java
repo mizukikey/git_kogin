@@ -130,6 +130,17 @@ public interface SalesRepository extends JpaRepository<Entity_sales, Integer> {
 			    @Param("from") LocalDate from,
 			    @Param("to") LocalDate to
 			);
+	
+	@Query("""
+		    SELECT s.salesDate, SUM(s.sumPrice)
+		    FROM Entity_sales s
+		    WHERE s.salesDate BETWEEN :from AND :to
+		    GROUP BY s.salesDate
+		    ORDER BY s.salesDate
+		""")
+		List<Object[]> findDailySales(
+		        @Param("from") LocalDate from,
+		        @Param("to") LocalDate to);
 
 
 

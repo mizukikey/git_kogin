@@ -314,4 +314,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     border-color: #5fa777;
 }
 
+.chart-wrapper {
+    width: 1200px;   /* ← 好きなサイズ */
+    height: 600px;
+    margin: 20px auto; /* 中央寄せ */
+}
+
 

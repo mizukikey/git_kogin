@@ -29,7 +29,7 @@ import com.example.demo.model.SalesService;
 import com.example.demo.repository.SalesRepository;
 
 @Controller
-public class OrderConstoller {
+public class OrderController {
 	
 	@Autowired
 	private SalesRepository salesRepository;

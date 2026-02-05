@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <title>販売集計結果</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
 
@@ -11,20 +13,20 @@
 
 <!-- 集計条件表示 -->
 <div class="summary-condition">
-    <p>
+    <h3>
         集計期間：
         <span th:text="${from}"></span>
         〜
         <span th:text="${to}"></span>
-    </p>
-    <p>
+    </h3>
+    <h3>
         集計方法：
         <span th:switch="${type}">
             <span th:case="'total'">全体売上</span>
             <span th:case="'customer'">顧客別売上</span>
             <span th:case="'manager'">担当者別売上</span>
         </span>
-    </p>
+    </h3>
 </div>
 
 <hr>
@@ -32,6 +34,10 @@
 <!-- 全体売上 -->
 <div th:if="${type == 'total'}">
     <h3>全体売上</h3>
+	
+	<div class="chart-wrapper">
+	    <canvas id="salesChart"></canvas>
+	</div>
     <p class="total-amount">
         <span th:text="${#numbers.formatInteger(result, 0, 'COMMA')}"></span> 円
     </p>
@@ -40,7 +46,11 @@
 <!-- 顧客別 -->
 <div th:if="${type == 'customer'}">
     <h3>顧客別売上</h3>
-
+	
+	<div class="chart-wrapper" style="width: 600px; height: 350px; margin: auto;">
+	    <canvas id="customerChart"></canvas>
+	</div>
+	
     <table class="summary-table">
         <tr>
             <th>お客様名</th>
@@ -56,6 +66,9 @@
 <!-- 担当者別 -->
 <div th:if="${type == 'manager'}">
     <h3>担当者別売上</h3>
+	<div class="chart-wrapper" style="width: 600px; height: 350px; margin: auto;">
+	    <canvas id="managerChart"></canvas>
+	</div>
 
     <table class="summary-table">
         <tr>
@@ -72,7 +85,10 @@
 <!-- 商品別 -->
 <div th:if="${type == 'product'}">
     <h3>商品別売上</h3>
-
+	
+	<div class="chart-wrapper" style="width: 600px; height: 350px; margin: auto;">
+	    <canvas id="productChart"></canvas>
+	</div>
     <table class="summary-table">
         <tr>
             <th>商品名</th>
@@ -92,5 +108,105 @@
 <div class="back">
     <a th:href="@{/sales/top}" class="btn-back">売上管理TOPへ</a>
 </div>
+
+<script th:inline="javascript" th:if="${labels != null}">
+(() => {
+    const labels = /*[[${labels}]]*/ [];
+    const data   = /*[[${data}]]*/ [];
+
+    const ctx = document.getElementById('salesChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels,
+            datasets: [{
+                label: '売上金額（円）',
+                data,
+                tension: 0
+            }]
+        }
+    });
+})();
+</script>
+
+<script th:inline="javascript" th:if="${type == 'customer'}">
+(() => {
+    const rawData = /*[[${result}]]*/ [];
+
+    const labels = rawData.map(row => row[0]);
+    const data   = rawData.map(row => row[1]);
+
+    const ctx = document.getElementById('customerChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+			datasets: [{
+			    label: '顧客別売上（円）',
+			    data: data,
+			    maxBarThickness: 20,
+			    barPercentage: 0.7,
+			    categoryPercentage: 0.7
+			}]
+        }
+    });
+})();
+</script>
+
+<script th:inline="javascript" th:if="${type == 'manager'}">
+(() => {
+    const rawData = /*[[${result}]]*/ [];
+
+    const labels = rawData.map(row => row[0]);
+    const data   = rawData.map(row => row[1]);
+
+    const ctx = document.getElementById('managerChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: '担当者別売上（円）',
+				data: data,
+				maxBarThickness: 20,
+				barPercentage: 0.7,
+				categoryPercentage: 0.7
+            }]
+        }
+    });
+})();
+</script>
+
+<script th:inline="javascript" th:if="${type == 'product'}">
+(() => {
+    const rawData = /*[[${result}]]*/ [];
+
+    const labels = rawData.map(row => row[0]);
+    const data   = rawData.map(row => row[1]);
+
+    const ctx = document.getElementById('productChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: '商品別売上（円）',
+				data: data,
+				maxBarThickness: 20,
+				barPercentage: 0.7,
+				categoryPercentage: 0.7
+            }]
+        }
+    });
+})();
+</script>
+
+
 </body>
+
+
 </html>

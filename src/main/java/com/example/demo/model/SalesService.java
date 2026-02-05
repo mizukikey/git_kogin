@@ -1,6 +1,7 @@
 package com.example.demo.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.transaction.Transactional;
 
@@ -295,6 +296,11 @@ public class SalesService {
             default -> null;
         };
     }
+    
+    public List<Object[]> getDailySales(LocalDate from, LocalDate to) {
+        return salesRepository.findDailySales(from, to);
+    }
+
 
 
 

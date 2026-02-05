@@ -288,6 +288,11 @@ public class SalesController {
 	        @RequestParam String type,
 	        Model model) {
 		
+	    if (from == null || to == null || type == null) {
+	        model.addAttribute("error", "条件をすべて入力してください");
+	        return "sales/summary";
+	    }
+		
 	    if (from == null || to == null) {
 	        model.addAttribute("error", "開始日と終了日は必須です");
 	        return "sales/summary";
@@ -300,11 +305,26 @@ public class SalesController {
 	    }
 
 	    Object result = salesService.getSummary(from, to, type);
+	    // ===== ★追加：日別売上（グラフ用） =====
+	    List<Object[]> dailySales =
+	            salesService.getDailySales(from, to);
+
+	    List<String> labels = dailySales.stream()
+	            .map(row -> row[0].toString()) // 日付
+	            .toList();
+
+	    List<Integer> data = dailySales.stream()
+	            .map(row -> ((Number) row[1]).intValue()) // 金額
+	            .toList();
 
 	    model.addAttribute("type", type);
 	    model.addAttribute("from", from);
 	    model.addAttribute("to", to);
 	    model.addAttribute("result", result);
+	    
+	    // ★ グラフ用
+	    model.addAttribute("labels", labels);
+	    model.addAttribute("data", data);
 	    return "sales/summary_result";
 	}
 	
