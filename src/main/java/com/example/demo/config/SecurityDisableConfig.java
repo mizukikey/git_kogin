@@ -64,7 +64,9 @@ public class SecurityDisableConfig {
                     "/js/**",
                     "/index.html",
                     "/",
-                    "/**" // ← すべて許可
+                    "/**",// ← すべて許可
+                    "/customer_input_confirm",
+                    "/customer_input_result"
                 ).permitAll()
             )
             .formLogin(login -> login.disable());

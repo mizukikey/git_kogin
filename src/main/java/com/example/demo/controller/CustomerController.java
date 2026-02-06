@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +25,9 @@ import com.example.demo.model.Entity_customer;
 @Controller
 public class CustomerController {
   	private DAO_customer dao_customer ;
+  	
+    @Autowired
+    private PasswordEncoder passwordEncoder;
   	
 	// DAO_Vegetableのコンストラクター。
   	public CustomerController( DAO_customer dc ) {
@@ -49,19 +53,18 @@ public class CustomerController {
 	    model.addAttribute("customer", new Entity_customer());
 	    return "/customer/input";
 	}
-
+	
+	
 	@PostMapping("/customer/input_confirm")
 	public String customer_input_confirm(
-	        @Validated @ModelAttribute("customer") Entity_customer customer,
-	        BindingResult bindingResult,
-	        Model model) {
-
-	    // ★ Bean Validation エラー
+	        @ModelAttribute("customer") Entity_customer customer,
+	        Model model, HttpSession session, BindingResult bindingResult) {
+		
 	    if (bindingResult.hasErrors()) {
 	        return "customer/input";
-	    }
+	        }
 
-	    // ★ UNIQUE チェック（ここ）
+//	    // ★ UNIQUE チェック（ここ）
 	    if (customerService.isUserIdDuplicated(customer.getUserId())) {
 	        bindingResult.rejectValue(
 	            "userId",
@@ -71,25 +74,73 @@ public class CustomerController {
 	        return "customer/input";
 	    }
 
-	    return "customer/input_confirm";
+	    // パスワードをセッションに保持
+	    session.setAttribute("rawCustomerPassword", customer.getPassword());
+
+	    return "/customer/input_confirm";
 	}
 
-	
 	@PostMapping("/customer/input_result")
-	public String customerInputResult(
+	public String customer_Input_Result(
+	        @ModelAttribute("customer") Entity_customer customer,
 	        Model model,
-	        @Valid @ModelAttribute("customer") Entity_customer customer,
-	        BindingResult result
-	) {
-	    if (result.hasErrors()) {
-	        return "customer/input";
-	    }
+	        HttpSession session,BindingResult bindingResult) {
+		
+	    if (bindingResult.hasErrors()) {
+        return "customer/input";
+        }
 
-	    dao_customer.save(customer);
+	    // セッションからパスワードを取り出してハッシュ化
+	    String rawPassword = (String) session.getAttribute("rawCustomerPassword");
+	    customer.setPassword(passwordEncoder.encode(rawPassword));
+
+	    dao_customer.saveAndFlush(customer);
+	    session.removeAttribute("rawCustomerPassword");
 
 	    model.addAttribute("c", customer);
 	    return "customer/input_result";
 	}
+
+//	@PostMapping("/customer/input_confirm")
+//	public String customer_input_confirm(
+//	        @Validated @ModelAttribute("customer") Entity_customer customer,
+//	        BindingResult bindingResult,
+//	        Model model) {
+//
+//	    // ★ Bean Validation エラー
+//	    if (bindingResult.hasErrors()) {
+//	        return "customer/input";
+//	    }
+//
+//	    // ★ UNIQUE チェック（ここ）
+//	    if (customerService.isUserIdDuplicated(customer.getUserId())) {
+//	        bindingResult.rejectValue(
+//	            "userId",
+//	            "duplicate",
+//	            "※このユーザIDはすでに登録されています"
+//	        );
+//	        return "customer/input";
+//	    }
+//
+//	    return "customer/input_confirm";
+//	}
+//
+//	
+//	@PostMapping("/customer/input_result")
+//	public String customerInputResult(
+//	        Model model,
+//	        @Valid @ModelAttribute("customer") Entity_customer customer,
+//	        BindingResult result
+//	) {
+//	    if (result.hasErrors()) {
+//	        return "customer/input";
+//	    }
+//
+//	    dao_customer.save(customer);
+//
+//	    model.addAttribute("c", customer);
+//	    return "customer/input_result";
+//	}
 	
 	@GetMapping("/customer_input")
 	public String customer_Input(Model model) {
@@ -97,46 +148,101 @@ public class CustomerController {
 	    return "/customer_input";
 	}
 
+//	@PostMapping("/customer_input_confirm")
+//	public String customerinput_confirm(
+//	        @ModelAttribute("customer") Entity_customer customer,
+//	        BindingResult bindingResult,
+//	        Model model, HttpSession session) {
+//
+//	    // ★ Bean Validation エラー
+//	    if (bindingResult.hasErrors()) {
+//	        return "customer_input";
+//	    }
+//
+//	    // ★ UNIQUE チェック（ここ）
+//	    if (customerService.isUserIdDuplicated(customer.getUserId())) {
+//	        bindingResult.rejectValue(
+//	            "userId",
+//	            "duplicate",
+//	            "※このユーザIDはすでに登録されています"
+//	        );
+//	        return "customer_input";
+//	    }
+//	    session.setAttribute("rawCustomerPassword", customer.getPassword());
+//
+//	    return "/customer_input_confirm";
+//	}
+//
+//	
+//	@PostMapping("/customer_input_result")
+//	public String customer_InputResult(
+//	        Model model,
+//	        @ModelAttribute("customer") Entity_customer customer,
+//	        BindingResult result, HttpSession session
+//	) {
+//	    if (result.hasErrors()) {
+//	        return "customer_input";
+//	    }
+//	    // ここでパスワードをハッシュ化
+////	    String rawPassword = customer.getPassword();
+////	    String hashedPassword = passwordEncoder.encode(rawPassword);
+////	    customer.setPassword(hashedPassword);
+////
+////	    dao_customer.saveAndFlush(customer); // saveAndFlush で確実に DB に反映
+//	    
+//	    String rawPassword = (String) session.getAttribute("rawCustomerPassword");
+//	    customer.setPassword(passwordEncoder.encode(rawPassword));
+//	    dao_customer.saveAndFlush(customer);
+//	    session.removeAttribute("rawCustomerPassword");
+//	    return "customer_input_result";
+//	}
+	
 	@PostMapping("/customer_input_confirm")
 	public String customerinput_confirm(
-	        @Validated @ModelAttribute("customer") Entity_customer customer,
-	        BindingResult bindingResult,
-	        Model model) {
-
-	    // ★ Bean Validation エラー
+	        @ModelAttribute("customer") Entity_customer customer,
+	        Model model, HttpSession session,BindingResult bindingResult) {
+		
 	    if (bindingResult.hasErrors()) {
-	        return "customer_input";
-	    }
+	        return "customer/input";
+	        }
 
-	    // ★ UNIQUE チェック（ここ）
+	    
+//	    // ★ UNIQUE チェック（ここ）
 	    if (customerService.isUserIdDuplicated(customer.getUserId())) {
 	        bindingResult.rejectValue(
 	            "userId",
 	            "duplicate",
 	            "※このユーザIDはすでに登録されています"
 	        );
-	        return "customer_input";
+	        return "customer/input";
 	    }
 
+	    // パスワードをセッションに保持
+	    session.setAttribute("rawCustomerPassword", customer.getPassword());
 	    return "/customer_input_confirm";
 	}
 
-	
 	@PostMapping("/customer_input_result")
 	public String customer_InputResult(
+	        @ModelAttribute("customer") Entity_customer customer,
 	        Model model,
-	        @Valid @ModelAttribute("customer") Entity_customer customer,
-	        BindingResult result
-	) {
-	    if (result.hasErrors()) {
-	        return "customer_input";
-	    }
+	        HttpSession session,BindingResult bindingResult) {
+		
+	    if (bindingResult.hasErrors()) {
+	        return "customer/input";
+	        }
 
-	    dao_customer.save(customer);
+	    // セッションからパスワードを取り出してハッシュ化
+	    String rawPassword = (String) session.getAttribute("rawCustomerPassword");
+	    customer.setPassword(passwordEncoder.encode(rawPassword));
+
+	    dao_customer.saveAndFlush(customer);
+	    session.removeAttribute("rawCustomerPassword");
 
 	    model.addAttribute("c", customer);
 	    return "customer_input_result";
 	}
+
 
 
 	

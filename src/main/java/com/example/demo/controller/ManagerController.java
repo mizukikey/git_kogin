@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,6 +26,10 @@ import com.example.demo.model.ManagerService;
 public class ManagerController {
 	
   	private DAO_manager dao_manager;
+  	
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+  	
   	
 	// DAO_Vegetableのコンストラクター。
   	public ManagerController( DAO_manager dm ) {
@@ -56,9 +61,9 @@ public class ManagerController {
 
 	@PostMapping("/manager/input_confirm")
 	public String manager_input_confirm(
-	        @Validated @ModelAttribute("manager") Entity_manager manager,
+	        @ModelAttribute("manager") Entity_manager manager,
 	        BindingResult bindingResult,
-	        Model model) {
+	        Model model,HttpSession session) {
 
 	    // ★ Bean Validation エラー
 	    if (bindingResult.hasErrors()) {
@@ -74,6 +79,8 @@ public class ManagerController {
 	        );
 	        return "manager/input";
 	    }
+	    session.setAttribute("rawManagerPassword", manager.getPassword());
+
 
 	    return "manager/input_confirm";
 	}
@@ -82,16 +89,19 @@ public class ManagerController {
 	@PostMapping("/manager/input_result")
 	public String managerInputResult(
 	        Model model,
-	        @Valid @ModelAttribute("manager") Entity_manager manager,
-	        BindingResult result
+	        @ModelAttribute("manager") Entity_manager manager,
+	        BindingResult result,HttpSession session
 	) {
 	    if (result.hasErrors()) {
 	        return "manager/input";
 	    }
+	    String rawPassword = (String) session.getAttribute("rawManagerPassword");
+	    manager.setPassword(passwordEncoder.encode(rawPassword));
 
-	    dao_manager.save(manager);
+	    dao_manager.saveAndFlush(manager);
+	    session.removeAttribute("rawManagerPassword");
 
-	    model.addAttribute("m", manager);
+//	    model.addAttribute("m", manager);
 	    return "manager/input_result";
 	}
 
