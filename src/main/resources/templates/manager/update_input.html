@@ -43,15 +43,15 @@
 	         th:errors="*{userId}"></div>
 	</div>
 
-	<div class="form-row">
-	<label>パスワード：</label>
-	    <input type="text"
-	           th:field="*{password}"
-	           maxlength="255"
-	           required />
-	    <div class="error-message" th:if="${#fields.hasErrors('password')}"
-	         th:errors="*{password}"></div>
-	</div>
+<!--	<div class="form-row">-->
+<!--	<label>パスワード：</label>-->
+<!--	    <input type="text"-->
+<!--	           th:field="*{password}"-->
+<!--	           maxlength="255"-->
+<!--	           required />-->
+<!--	    <div class="error-message" th:if="${#fields.hasErrors('password')}"-->
+<!--	         th:errors="*{password}"></div>-->
+<!--	</div>-->
 
     <button type="submit">確認</button>
 	<p class="back">

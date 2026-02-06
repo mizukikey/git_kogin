@@ -5,14 +5,12 @@ import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -128,7 +126,7 @@ public class ManagerController {
 	    // ------------------------
 	    @PostMapping("/manager/update_confirm")
 	    public String manager_update_confirm(
-	            @Validated @ModelAttribute("manager") Entity_manager manager,
+	            @ModelAttribute("manager") Entity_manager manager,
 	            BindingResult bindingResult,
 	            Model model) {
 
@@ -152,7 +150,7 @@ public class ManagerController {
 	    // ------------------------
 	    @PostMapping("/manager/update_result")
 	    public String manager_update_result(
-	            @Valid @ModelAttribute("manager") Entity_manager manager,
+	            @ModelAttribute("manager") Entity_manager manager,
 	            BindingResult result,
 	            Model model) {
 
@@ -160,9 +158,18 @@ public class ManagerController {
 	            return "manager/update_input";
 	        }
 
-	        dao_manager.save(manager); // ID付きならUPDATE
+	        // ★ DBの既存データを取得
+	        Entity_manager dbManager =
+	                dao_manager.findById(manager.getId())
+	                            .orElseThrow();
 
-	        model.addAttribute("m", manager);
+	        // ★ 変更を許可する項目だけ上書き
+	        dbManager.setUserId(manager.getUserId());
+	        dbManager.setName(manager.getName());
+	        dbManager.setPhoneNumber(manager.getPhoneNumber());
+	        // ↑ 必要な分だけ
+	        dao_manager.save(dbManager);
+	        
 	        return "manager/update_result";
 	    }
 	

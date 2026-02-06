@@ -5,14 +5,12 @@ import java.util.Optional;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -268,7 +266,7 @@ public class CustomerController {
 	    // ------------------------
 	    @PostMapping("/customer/update_confirm")
 	    public String customer_update_confirm(
-	            @Validated @ModelAttribute("customer") Entity_customer customer,
+	            @ModelAttribute("customer") Entity_customer customer,
 	            BindingResult bindingResult,
 	            Model model) {
 
@@ -290,9 +288,24 @@ public class CustomerController {
 	    // ------------------------
 	    // 更新結果画面
 	    // ------------------------
+//	    @PostMapping("/customer/update_result")
+//	    public String customer_update_result(
+//	            @ModelAttribute("customer") Entity_customer customer,
+//	            BindingResult result,
+//	            Model model) {
+//
+//	        if (result.hasErrors()) {
+//	            return "customer/update_input";
+//	        }
+//
+//	        dao_customer.save(customer); // ID付きならUPDATE
+//
+//	        return "customer/update_result";
+//	    }
+	
 	    @PostMapping("/customer/update_result")
 	    public String customer_update_result(
-	            @Valid @ModelAttribute("customer") Entity_customer customer,
+	            @ModelAttribute("customer") Entity_customer formCustomer,
 	            BindingResult result,
 	            Model model) {
 
@@ -300,12 +313,21 @@ public class CustomerController {
 	            return "customer/update_input";
 	        }
 
-	        dao_customer.save(customer); // ID付きならUPDATE
+	        // ★ DBの既存データを取得
+	        Entity_customer dbCustomer =
+	                dao_customer.findById(formCustomer.getId())
+	                            .orElseThrow();
 
-	        model.addAttribute("c", customer);
+	        // ★ 変更を許可する項目だけ上書き
+	        dbCustomer.setUserId(formCustomer.getUserId());
+	        dbCustomer.setName(formCustomer.getName());
+	        dbCustomer.setAddress(formCustomer.getAddress());
+	        dbCustomer.setPhone_number(formCustomer.getPhone_number());
+	        // ↑ 必要な分だけ
+	        dao_customer.save(dbCustomer);
 	        return "customer/update_result";
 	    }
-	
+
 	
 	@RequestMapping("/customer/delete")
 	public String  customer_delete(Model m) {
@@ -370,22 +392,34 @@ public class CustomerController {
 	    // ------------------------
 	    @PostMapping("/customer/mypage/update_confirm")
 	    public String mypage_customer_update_confirm(
-	            @Validated @ModelAttribute("customer") Entity_customer customer,
+	            @ModelAttribute("customer") Entity_customer formCustomer,
 	            BindingResult bindingResult,
-	            Model model) {
+	            Model model,  HttpSession session) {
 
 	        // Bean Validation エラー
 	        if (bindingResult.hasErrors()) {
 	            return "customer/mypage/update_input";
 	        }
 
-	        // UNIQUEチェック（自分自身のIDは除外）
-	        if (customerService.isUserIdDuplicatedForUpdate(customer.getUserId(), customer.getId())) {
-	            bindingResult.rejectValue("userId", "duplicate", "このユーザIDはすでに登録されています");
+//	        // UNIQUEチェック（自分自身のIDは除外）
+//	        if (customerService.isUserIdDuplicatedForUpdate(customer.getUserId(), customer.getId())) {
+//	            bindingResult.rejectValue("userId", "duplicate", "このユーザIDはすでに登録されています");
+//	            return "customer/mypage/update_input";
+//	        }
+	        Entity_customer loginCustomer =
+	                (Entity_customer) session.getAttribute("loginCustomer");
+
+	        // ★ IDをセッションのものに強制
+	        formCustomer.setId(loginCustomer.getId());
+
+	        if (customerService.isUserIdDuplicatedForUpdate(
+	                formCustomer.getUserId(), formCustomer.getId())) {
+	            bindingResult.rejectValue(
+	                "userId", "duplicate", "このユーザIDはすでに登録されています");
 	            return "customer/mypage/update_input";
 	        }
 
-	        model.addAttribute("customer", customer);
+	        model.addAttribute("customer", formCustomer);
 	        return "customer/mypage/update_confirm";
 	    }
 
@@ -394,17 +428,37 @@ public class CustomerController {
 	    // ------------------------
 	    @PostMapping("/customer/mypage/update_result")
 	    public String mypage_customer_update_result(
-	            @Valid @ModelAttribute("customer") Entity_customer customer,
+	            @ModelAttribute("customer") Entity_customer formCustomer,
 	            BindingResult result,
-	            Model model) {
+	            Model model,HttpSession session) {
 
 	        if (result.hasErrors()) {
 	            return "customer/mypage/update_input";
 	        }
+	        
+	        Entity_customer loginCustomer =
+	                (Entity_customer) session.getAttribute("loginCustomer");
 
-	        dao_customer.save(customer); // ID付きならUPDATE
+	        Entity_customer dbCustomer =
+	                dao_customer.findById(loginCustomer.getId())
+	                            .orElseThrow();
 
-	        model.addAttribute("c", customer);
+
+//	        // ★ DBの既存データを取得
+//	        Entity_customer dbCustomer =
+//	                dao_customer.findById(formCustomer.getId())
+//	                            .orElseThrow();
+
+	        // ★ 変更を許可する項目だけ上書き
+	        dbCustomer.setUserId(formCustomer.getUserId());
+	        dbCustomer.setName(formCustomer.getName());
+	        dbCustomer.setAddress(formCustomer.getAddress());
+	        dbCustomer.setPhone_number(formCustomer.getPhone_number());
+	        // ↑ 必要な分だけ
+	        dao_customer.save(dbCustomer);
+	        // ★ セッションも更新（超重要）
+	        session.setAttribute("loginCustomer", dbCustomer);
+
 	        return "customer/mypage/update_result";
 	    }
 	    
