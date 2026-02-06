@@ -11,11 +11,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.dto.ManagerUpdateForm;
 import com.example.demo.model.DAO_manager;
 import com.example.demo.model.Entity_manager;
 import com.example.demo.model.ManagerService;
@@ -196,6 +199,73 @@ public class ManagerController {
 	    Integer id = manager.getId();
 	    dao_manager.deleteById(id);
 		return "/manager/delete_result";
+	}
+	
+	@RequestMapping("/manager/password_update_input")
+	public String manager_password_update_input(
+	        @RequestParam int id,
+	        Model model) {
+
+		ManagerUpdateForm form = new ManagerUpdateForm();
+	    form.setId(id);
+
+	    model.addAttribute("form", form);
+	    return "manager/password_update_input";
+	}
+	
+	@PostMapping("/manager/password_update_confirm")
+	public String manager_password_update_confirm(
+	        @Validated @ModelAttribute("form") ManagerUpdateForm form,
+	        BindingResult result,
+	        Model model) {
+
+	    if (result.hasErrors()) {
+	        return "manager/password_update_input";
+	    }
+
+	    if (!form.getNewPassword().equals(form.getConfirmPassword())) {
+	        result.rejectValue(
+	            "confirmPassword",
+	            "mismatch",
+	            "新しいパスワードが一致しません"
+	        );
+	        return "manager/password_update_input";
+	    }
+
+	    return "manager/password_update_confirm";
+	}
+	
+	@PostMapping("/manager/password_update_result")
+	public String manager_password_update_result(
+	        @ModelAttribute("form") ManagerUpdateForm form,
+	        BindingResult result,
+	        Model model) {
+
+	    Entity_manager manager =
+	        dao_manager.findById(form.getId())
+	                    .orElseThrow();
+
+	    // 現在のパスワード確認
+	    if (!passwordEncoder.matches(
+	            form.getCurrentPassword(),
+	            manager.getPassword())) {
+
+	        result.rejectValue(
+	            "currentPassword",
+	            "invalid",
+	            "現在のパスワードが正しくありません"
+	        );
+	        return "manager/password_update_input";
+	    }
+
+	    // ハッシュ化して保存
+	    manager.setPassword(
+	        passwordEncoder.encode(form.getNewPassword())
+	    );
+
+	    dao_manager.save(manager);
+
+	    return "manager/password_update_result";
 	}
 
 }

@@ -15,7 +15,8 @@
 			<th>住所</th>
 			<th>電話番号</th>
 			<th>ユーザID</th>
-			<th>削除</th>
+			<th>ユーザ情報変更</th>
+			<th>パスワード変更</th>
 		</tr>
 		
 		<tr th:each="c : ${customer_list}">
@@ -27,7 +28,13 @@
 			<td>
 				<form th:action="@{/customer/update_input}" method="post">
 					<input type="hidden" name="id" th:value="@{${c.id}}">
-					<input type="submit" value="変更">
+					<input type="submit" value="ユーザ情報変更">
+				</form>
+			</td>
+			<td>
+				<form th:action="@{/customer/password_update_input}" method="post">
+					<input type="hidden" name="id" th:value="@{${c.id}}">
+					<input type="submit" value="パスワード変更">
 				</form>
 			</td>
 		</tr>	

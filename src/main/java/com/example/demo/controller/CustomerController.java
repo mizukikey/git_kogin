@@ -11,11 +11,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import com.example.demo.dto.PasswordChangeForm;
+import com.example.demo.dto.PasswordUpdateForm;
 import com.example.demo.model.CustomerService;
 import com.example.demo.model.DAO_customer;
 import com.example.demo.model.Entity_customer;
@@ -477,6 +481,198 @@ public class CustomerController {
 		    dao_customer.deleteById(id);
 			return "/customer/mypage/delete_result";
 		}
+		
+//		@GetMapping("/customer/password_input")
+//		public String passwordInput(Model model) {
+//		    model.addAttribute("passwordForm", new PasswordChangeForm());
+//		    return "customer/password_input";
+//		}
+//		
+//		@PostMapping("/customer/password_confirm")
+//		public String passwordConfirm(
+//		        @Validated @ModelAttribute("passwordForm") PasswordChangeForm form,
+//		        BindingResult result,
+//		        HttpSession session) {
+//
+//		    if (result.hasErrors()) {
+//		        return "customer/password_input";
+//		    }
+//
+//		    Entity_customer loginCustomer =
+//		            (Entity_customer) session.getAttribute("loginCustomer");
+//
+//		    // ★ 現在のパスワードチェック
+//		    if (!passwordEncoder.matches(
+//		            form.getCurrentPassword(),
+//		            loginCustomer.getPassword())) {
+//
+//		        result.rejectValue(
+//		            "currentPassword",
+//		            "invalid",
+//		            "現在のパスワードが正しくありません");
+//		        return "customer/mypage/password_input";
+//		    }
+//
+//		    // ★ 新旧一致チェック
+//		    if (!form.getNewPassword().equals(form.getConfirmPassword())) {
+//		        result.rejectValue(
+//		            "confirmPassword",
+//		            "mismatch",
+//		            "新しいパスワードが一致しません");
+//		        return "customer/password_input";
+//		    }
+//
+//		    return "customer/password_confirm";
+//		}
+		
+		@RequestMapping("/customer/password_update_input")
+		public String customer_password_update_input(
+		        @RequestParam int id,
+		        Model model) {
+
+		    PasswordUpdateForm form = new PasswordUpdateForm();
+		    form.setId(id);
+
+		    model.addAttribute("form", form);
+		    return "customer/password_update_input";
+		}
+		
+		@PostMapping("/customer/password_update_confirm")
+		public String customer_password_update_confirm(
+		        @Validated @ModelAttribute("form") PasswordUpdateForm form,
+		        BindingResult result,
+		        Model model) {
+
+		    if (result.hasErrors()) {
+		        return "customer/password_update_input";
+		    }
+
+		    if (!form.getNewPassword().equals(form.getConfirmPassword())) {
+		        result.rejectValue(
+		            "confirmPassword",
+		            "mismatch",
+		            "新しいパスワードが一致しません"
+		        );
+		        return "customer/password_update_input";
+		    }
+
+		    return "customer/password_update_confirm";
+		}
+		
+		@PostMapping("/customer/password_update_result")
+		public String customer_password_update_result(
+		        @ModelAttribute("form") PasswordUpdateForm form,
+		        BindingResult result,
+		        Model model) {
+
+		    Entity_customer customer =
+		        dao_customer.findById(form.getId())
+		                    .orElseThrow();
+
+		    // 現在のパスワード確認
+		    if (!passwordEncoder.matches(
+		            form.getCurrentPassword(),
+		            customer.getPassword())) {
+
+		        result.rejectValue(
+		            "currentPassword",
+		            "invalid",
+		            "現在のパスワードが正しくありません"
+		        );
+		        return "customer/password_update_input";
+		    }
+
+		    // ハッシュ化して保存
+		    customer.setPassword(
+		        passwordEncoder.encode(form.getNewPassword())
+		    );
+
+		    dao_customer.save(customer);
+
+		    return "customer/password_update_result";
+		}
+
+
+
+		
+//		@RequestMapping("/customer/password_update_input")
+//		public String  customer_password_update_input(Model m, HttpServletRequest req) {
+//			int id=Integer.parseInt(req.getParameter("id"));
+//			Optional<Entity_customer> opt=dao_customer.findById(id);
+//			Entity_customer customer = opt.get();  
+//			m.addAttribute("customer",customer);
+//			return "/customer/password_update_input";
+//		}
+		
+		@GetMapping("/customer/mypage/password_input")
+		public String passwordInput(Model model) {
+		    model.addAttribute("passwordForm", new PasswordChangeForm());
+		    return "customer/mypage/password_input";
+		}
+		
+		@PostMapping("/customer/mypage/password_confirm")
+		public String passwordConfirm(
+		        @Validated @ModelAttribute("passwordForm") PasswordChangeForm form,
+		        BindingResult result,
+		        HttpSession session) {
+
+		    if (result.hasErrors()) {
+		        return "customer/mypage/password_input";
+		    }
+
+		    Entity_customer loginCustomer =
+		            (Entity_customer) session.getAttribute("loginCustomer");
+
+		    // ★ 現在のパスワードチェック
+		    if (!passwordEncoder.matches(
+		            form.getCurrentPassword(),
+		            loginCustomer.getPassword())) {
+
+		        result.rejectValue(
+		            "currentPassword",
+		            "invalid",
+		            "現在のパスワードが正しくありません");
+		        return "customer/mypage/password_input";
+		    }
+
+		    // ★ 新旧一致チェック
+		    if (!form.getNewPassword().equals(form.getConfirmPassword())) {
+		        result.rejectValue(
+		            "confirmPassword",
+		            "mismatch",
+		            "新しいパスワードが一致しません");
+		        return "customer/mypage/password_input";
+		    }
+
+		    return "customer/mypage/password_confirm";
+		}
+		
+		@PostMapping("/customer/mypage/password_result")
+		public String passwordResult(
+		        @ModelAttribute("passwordForm") PasswordChangeForm form,
+		        HttpSession session) {
+
+		    Entity_customer loginCustomer =
+		            (Entity_customer) session.getAttribute("loginCustomer");
+
+		    Entity_customer dbCustomer =
+		            dao_customer.findById(loginCustomer.getId())
+		                        .orElseThrow();
+
+		    // ★ ハッシュ化して保存
+		    String hashed = passwordEncoder.encode(form.getNewPassword());
+		    dbCustomer.setPassword(hashed);
+		    dao_customer.save(dbCustomer);
+
+		    // ★ セッションも更新
+		    session.setAttribute("loginCustomer", dbCustomer);
+
+		    return "customer/mypage/password_result";
+		}
+
+
+
+
 
 	
 }
