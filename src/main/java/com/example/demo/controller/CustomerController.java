@@ -353,7 +353,8 @@ public class CustomerController {
 	public String  delete_result(HttpServletRequest r,HttpSession s) {
 		Entity_customer customer = (Entity_customer) s.getAttribute("result");
 	    Integer id = customer.getId();
-	    dao_customer.deleteById(id);
+//	    dao_customer.deleteById(id);
+	    customerService.disableCustomer(id);
 		return "/customer/delete_result";
 	}
 	
@@ -476,9 +477,11 @@ public class CustomerController {
 		
 		@RequestMapping("/customer/mypage/delete_result")
 		public String  mypage_delete_result(HttpServletRequest r,HttpSession s) {
-			Entity_customer customer = (Entity_customer) s.getAttribute("result");
+			Entity_customer customer = (Entity_customer) s.getAttribute("customer");
 		    Integer id = customer.getId();
-		    dao_customer.deleteById(id);
+		    customerService.disableCustomer(id);
+		    s.invalidate(); // ログアウト
+//		    dao_customer.deleteById(id);
 			return "/customer/mypage/delete_result";
 		}
 		

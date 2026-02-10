@@ -197,7 +197,8 @@ public class ManagerController {
 	public String  delete_result(HttpServletRequest r,HttpSession s) {
 		Entity_manager manager = (Entity_manager) s.getAttribute("result");
 	    Integer id = manager.getId();
-	    dao_manager.deleteById(id);
+//	    dao_manager.deleteById(id);
+	    managerService.disableCustomer(id);
 		return "/manager/delete_result";
 	}
 	

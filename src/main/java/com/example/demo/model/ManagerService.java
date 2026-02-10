@@ -34,6 +34,15 @@ public class ManagerService {
         return managerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("管理者が見つかりません"));
     }
+    
+    public void disableCustomer(Integer id) {
+    	Entity_manager manager =
+    			managerRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("not found"));
+
+    	manager.setPassword("DISABLED");
+    	managerRepository.save(manager);
+    }
 
 
 }

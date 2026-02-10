@@ -34,7 +34,15 @@ public class CustomerService {
         return customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("顧客が見つかりません"));
     }
+    
+    public void disableCustomer(Integer id) {
+        Entity_customer customer =
+            customerRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("not found"));
 
+        customer.setPassword("DISABLED");
+        customerRepository.save(customer);
+    }
 
 }
 
