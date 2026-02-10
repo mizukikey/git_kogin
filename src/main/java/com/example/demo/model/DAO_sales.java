@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DAO_sales extends JpaRepository <Entity_sales, Integer>{
     // 顧客IDで注文を取得
+    // product_id を条件に存在チェック
+    boolean existsByProductId(Integer productId);
 }

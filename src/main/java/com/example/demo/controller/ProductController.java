@@ -170,13 +170,32 @@ public class ProductController {
 		return "/product/delete_confirm";
 	}
 	
+//	@RequestMapping("/product/delete_result")
+//	public String  delete_result(HttpServletRequest r,HttpSession s) {
+//		Entity_product product = (Entity_product) s.getAttribute("result");
+//	    Integer id = product.getId();
+////	    dao_product.deleteById(id);
+//		return "/product/delete_result";
+//	}
+	
 	@RequestMapping("/product/delete_result")
-	public String  delete_result(HttpServletRequest r,HttpSession s) {
-		Entity_product product = (Entity_product) s.getAttribute("result");
+	public String delete_result(HttpSession s, Model model) {
+
+	    Entity_product product =
+	            (Entity_product) s.getAttribute("result");
 	    Integer id = product.getId();
-	    dao_product.deleteById(id);
-		return "/product/delete_result";
+
+	    try {
+	        productService.deleteProduct(id);
+	        return "/product/delete_result";
+
+	    } catch (IllegalStateException e) {
+	        // 削除できなかった理由を画面に渡す
+	        model.addAttribute("errorMessage", e.getMessage());
+	        return "/product/delete_confirm";
+	    }
 	}
+
 	
 	@RequestMapping("/product/stock")
 	public String  stock_update(Model m) {

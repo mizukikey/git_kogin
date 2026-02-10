@@ -11,6 +11,9 @@ public class ProductService {
 
     @Autowired
     private DAO_product productRepository;
+    
+    @Autowired
+    private DAO_sales salesRepository;
 
     public boolean isNameDuplicated(String name) {
         return productRepository.existsByName(name);
@@ -35,6 +38,19 @@ public class ProductService {
         return productRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("商品が見つかりません"));
     }
+    
+    public void deleteProduct(Integer productId) {
+
+        // 売上が存在するか確認
+        if (salesRepository.existsByProductId(productId)) {
+            throw new IllegalStateException(
+                "売上履歴が存在する商品は削除できません"
+            );
+        }
+
+        productRepository.deleteById(productId);
+    }
+
 
 }
 
